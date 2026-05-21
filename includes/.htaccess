@@ -1,0 +1,3 @@
+# includes/.htaccess
+
+Deny from all
