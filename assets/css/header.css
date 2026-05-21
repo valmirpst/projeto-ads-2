@@ -1,0 +1,14 @@
+.header nav {
+  height: 80px;
+}
+
+@media (min-width: 992px) {
+  .header nav {
+    height: 96px;
+  }
+
+  .navbar-brand img {
+    width: 192px;
+    height: 96px;
+  }
+}

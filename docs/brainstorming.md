@@ -25,6 +25,7 @@
 
 - id
 - nome
+- slug (opcional, para URLs amigáveis)
 
 #### Tabela: subcategorias (opcional)
 

@@ -1,0 +1,8 @@
+.pt-112 {
+  padding-top: 112px;
+}
+
+/* Borders */
+.border-primary-lighter {
+  border-color: var(--bs-primary-lighter) !important;
+}
