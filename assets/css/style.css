@@ -20,7 +20,7 @@
   --bs-primary-dark: #a10e5c;
 
   --bs-secondary: #6c757d;
-  --bs-primary-rgb: 13, 110, 253;
+  --bs-primary-rgb: 210, 18, 121;
   --bs-secondary-rgb: 108, 117, 125;
   --bs-body-color-rgb: 33, 37, 41;
   --bs-font-sans-serif:
@@ -48,4 +48,8 @@
   --bs-btn-disabled-color: #fff;
   --bs-btn-disabled-bg: var(--bs-primary-dark);
   --bs-btn-disabled-border-color: var(--bs-primary-dark);
+}
+
+img {
+  width: 100%;
 }

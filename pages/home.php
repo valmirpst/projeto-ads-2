@@ -1,14 +1,13 @@
 <?php
 $categorias = [
-  ['nome' => 'Body Splash', 'imagem' => 'body-splash.jpg'],
-  ['nome' => 'Bolsas e Mochilas', 'imagem' => 'bolsas-mochilas.jpg'],
-  ['nome' => 'Copos e Garrafas Térmicas', 'imagem' => 'copos-garrafas-termicas.jpg'],
-  ['nome' => 'Cuidado para o Cabelo', 'imagem' => 'cuidado-cabelo.jpg'],
-  ['nome' => 'Cuidado com a Pele', 'imagem' => 'cuidado-pele.jpg'],
-  ['nome' => 'Gloss Labial', 'imagem' => 'gloss-labial.jpg'],
-  ['nome' => 'Kits para Presentes', 'imagem' => 'kits-presentes.jpg'],
-  ['nome' => 'Maquiagem', 'imagem' => 'maquiagem.jpg'],
-
+  ['id' => 1, 'nome' => 'Body Splash', 'slug' => 'body-splash', 'imagem' => 'body-splash.jpg'],
+  ['id' => 2, 'nome' => 'Bolsas e Mochilas', 'slug' => 'bolsas-mochilas', 'imagem' => 'bolsas-mochilas.jpg'],
+  ['id' => 3, 'nome' => 'Copos e Garrafas Térmicas', 'slug' => 'copos-garrafas-termicas', 'imagem' => 'copos-garrafas-termicas.jpg'],
+  ['id' => 4, 'nome' => 'Cuidado para o Cabelo', 'slug' => 'cuidado-cabelo', 'imagem' => 'cuidado-cabelo.jpg'],
+  ['id' => 5, 'nome' => 'Cuidado com a Pele', 'slug' => 'cuidado-pele', 'imagem' => 'cuidado-pele.jpg'],
+  ['id' => 6, 'nome' => 'Gloss Labial', 'slug' => 'gloss-labial', 'imagem' => 'gloss-labial.jpg'],
+  ['id' => 7, 'nome' => 'Kits para Presentes', 'slug' => 'kits-presentes', 'imagem' => 'kits-presentes.jpg'],
+  ['id' => 8, 'nome' => 'Maquiagem', 'slug' => 'maquiagem', 'imagem' => 'maquiagem.jpg'],
 ]
 ?>
 
@@ -16,23 +15,27 @@ $categorias = [
 <link rel="stylesheet" href="assets/css/pages/home.css">
 <main class="flex-grow-1 d-flex flex-column gap-5">
   <!-- Hero -->
-  <section class="container text-center pt-112">
+  <section class="hero-section container text-center pt-112">
     <div class="hero-content mx-auto d-flex flex-column gap-3">
       <h1 class="display-1 ">BELEZA QUE IMPRESSIONA</h1>
       <p class="hero-subtitle fw-light mb-4">Realce sua essência, cuide da sua pele e encontre o presente perfeito em um só lugar!</p>
-      <a href="?pagina=produtos" class="btn btn-primary mx-auto rounded-5 px-5 fw-medium mt-5">Ver Todos os Produtos</a>
+      <a href="?pagina=produtos" class="btn btn-primary py-2 mx-auto rounded-5 px-5 fw-medium mt-5">Ver Todos os Produtos</a>
     </div>
   </section>
 
   <!-- Categorias -->
   <section class="container pt-112">
     <h2 class="display-6 text-center mb-4">Categorias</h2>
-    <div class="row g-3 mx-auto">
+    <div class="container-sm row g-3 mx-auto categorias-grid">
       <?php foreach ($categorias as $categoria) : ?>
-        <div class="col-6">
-          <img src="assets/images/<?= $categoria['imagem'] ?>" alt="<?= $categoria['nome'] ?>" class="categoria-imagem rounded-4">
-          <h3><?= $categoria['nome'] ?></h3>
-        </div>
+        <a href="?pagina=produtos&categoria=<?= $categoria['slug'] ?>" class="small categoria-item p-0 text-center col-6">
+          <img
+            src="assets/images/<?= $categoria['imagem'] ?>"
+            alt="<?= $categoria['nome'] ?>"
+            class="categoria-imagem"
+            onerror="this.onerror=null;this.src='assets/images/fallback.jpg';">
+          <h6 class="w-100"><?= $categoria['nome'] ?></h6>
+        </a>
       <?php endforeach; ?>
     </div>
   </section>
