@@ -25,6 +25,7 @@ $navLinks = [
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/custom.css">
   <link rel="stylesheet" href="assets/css/header.css">
+  <link rel="stylesheet" href="assets/css/footer.css">
 
   <!-- CSS dinâmico de cada página -->
   <?php
