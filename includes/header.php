@@ -25,6 +25,17 @@ $navLinks = [
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/custom.css">
   <link rel="stylesheet" href="assets/css/header.css">
+
+  <!-- CSS dinâmico de cada página -->
+  <?php
+  if (!empty($stylesheet)) {
+    $pageCssPath = "assets/css/pages/$stylesheet";
+
+    if (file_exists($pageCssPath)) {
+      echo "<link rel='stylesheet' href='$pageCssPath'>";
+    }
+  }
+  ?>
 </head>
 
 <body>

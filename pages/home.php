@@ -12,7 +12,6 @@ $categorias = [
 ?>
 
 
-<link rel="stylesheet" href="assets/css/pages/home.css">
 <main class="flex-grow-1 d-flex flex-column gap-5">
   <!-- Hero -->
   <section class="hero-section container text-center pt-112">
