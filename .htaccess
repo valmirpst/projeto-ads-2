@@ -3,7 +3,7 @@
 Options -Indexes
 RewriteEngine On
 
-<!-- Regras de "reescrita" da URL, envia tudo pro index.php -->
+# Regras de "reescrita" da URL, envia tudo pro index.php
 
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
