@@ -60,7 +60,7 @@ $navLinks = [
       </button>
 
       <!-- Logo -->
-      <a class="navbar-brand position-absolute start-50 translate-middle-x m-0" href="#">
+      <a class="navbar-brand position-absolute start-50 translate-middle-x m-0" href="?pagina=home">
         <img src="assets/images/ManuMakeLogoSemFundo.png" alt="Logo" width="128" height="64">
       </a>
 

@@ -12,9 +12,9 @@ $categorias = [
 ?>
 
 
-<main class="flex-grow-1 d-flex flex-column gap-5">
+<main class="container flex-grow-1 d-flex flex-column gap-5">
   <!-- Hero -->
-  <section class="hero-section container text-center pt-112">
+  <section class="hero-section container-sm text-center pt-112">
     <div class="hero-content mx-auto d-flex flex-column gap-3">
       <h1 class="display-1 ">BELEZA QUE IMPRESSIONA</h1>
       <p class="hero-subtitle fw-light mb-4">Realce sua essência, cuide da sua pele e encontre o presente perfeito em um só lugar!</p>
@@ -23,15 +23,15 @@ $categorias = [
   </section>
 
   <!-- Categorias -->
-  <section class="container pt-112">
+  <section class="container-sm pt-112">
     <h2 class="display-6 text-center mb-4">Categorias</h2>
-    <div class="container-sm row g-3 mx-auto categorias-grid">
+    <div class="row g-3 mx-auto items-grid">
       <?php foreach ($categorias as $categoria) : ?>
         <a href="?pagina=produtos&categoria=<?= $categoria['slug'] ?>" class="small categoria-item p-0 text-center col-6">
           <img
             src="assets/images/<?= $categoria['imagem'] ?>"
             alt="<?= $categoria['nome'] ?>"
-            class="categoria-imagem"
+            class="grid-item-imagem"
             onerror="this.onerror=null;this.src='assets/images/fallback.jpg';">
           <h6 class="w-100"><?= $categoria['nome'] ?></h6>
         </a>

@@ -8,6 +8,7 @@
 
   $rotas = [
     'home' => 'pages/home.php',
+    'produtos' => 'pages/produtos.php',
   ];
 
   if (array_key_exists($pagina, $rotas)) {
