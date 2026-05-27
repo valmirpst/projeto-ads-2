@@ -30,10 +30,10 @@ $categorias = [
       <?php foreach ($categorias as $categoria) : ?>
         <a href="<?= $baseUrl ?>/produtos?categoria=<?= $categoria['slug'] ?>" class="small categoria-item p-0 text-center col-6">
           <img
-            src="assets/images/<?= $categoria['imagem'] ?>"
+            src="<?= $baseUrl ?>/assets/images/<?= $categoria['imagem'] ?>"
             alt="<?= $categoria['nome'] ?>"
             class="grid-item-imagem"
-            onerror="this.onerror=null;this.src='assets/images/fallback.jpg';">
+            onerror="this.onerror=null;this.src='<?= $baseUrl ?>/assets/images/fallback.jpg';">
           <h6 class="w-100"><?= $categoria['nome'] ?></h6>
         </a>
       <?php endforeach; ?>

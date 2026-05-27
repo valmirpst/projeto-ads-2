@@ -34,10 +34,10 @@ $baseUrl = $baseUrl ?? '';
           <!-- Foto do produto -->
           <a href="<?= $baseUrl ?>/produtos/<?= $produto['id'] ?>" class="small produto-imagem p-0 text-center col-6">
             <img
-              src="assets/images/<?= $produto['imagem'] ?>"
+              src="<?= $baseUrl ?>/assets/images/<?= $produto['imagem'] ?>"
               alt="<?= $produto['nome'] ?>"
               class="grid-item-imagem"
-              onerror="this.onerror=null;this.src='assets/images/fallback.jpg';">
+              onerror="this.onerror=null;this.src='<?= $baseUrl ?>/assets/images/fallback.jpg';">
           </a>
           <div class="d-flex flex-column">
             <!-- Nome do produto -->

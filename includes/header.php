@@ -23,10 +23,10 @@ $navLinks = [
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/custom.css">
-  <link rel="stylesheet" href="assets/css/header.css">
-  <link rel="stylesheet" href="assets/css/footer.css">
+  <link rel="stylesheet" href="<?= $baseUrl ?>/assets/css/style.css">
+  <link rel="stylesheet" href="<?= $baseUrl ?>/assets/css/custom.css">
+  <link rel="stylesheet" href="<?= $baseUrl ?>/assets/css/header.css">
+  <link rel="stylesheet" href="<?= $baseUrl ?>/assets/css/footer.css">
 
   <!-- CSS dinâmico de cada página -->
   <?php
@@ -34,7 +34,7 @@ $navLinks = [
     $pageCssPath = "assets/css/pages/$stylesheet";
 
     if (file_exists($pageCssPath)) {
-      echo "<link rel='stylesheet' href='$pageCssPath'>";
+      echo "<link rel='stylesheet' href='" . $baseUrl . "/$pageCssPath'>";
     }
   }
   ?>
@@ -62,7 +62,7 @@ $navLinks = [
 
       <!-- Logo -->
       <a class="navbar-brand position-absolute start-50 translate-middle-x m-0" href="<?= $baseUrl ?>/">
-        <img src="assets/images/ManuMakeLogoSemFundo.png" alt="Logo" width="128" height="64">
+        <img src="<?= $baseUrl ?>/assets/images/ManuMakeLogoSemFundo.png" alt="Logo" width="128" height="64">
       </a>
 
     </nav>

@@ -4,7 +4,7 @@ $baseUrl = $baseUrl ?? '';
 
 <footer class="footer px-2 px-lg-4 pt-5 pb-2 mt-80">
   <a class="pb-3" href="<?= $baseUrl ?>/">
-    <img src="assets/images/ManuMakeLogoSemFundo.png" alt="Logo">
+    <img src="<?= $baseUrl ?>/assets/images/ManuMakeLogoSemFundo.png" alt="Logo">
   </a>
 
   <div class="d-flex flex-wrap gap-5 mt-4 px-3 py-3">
