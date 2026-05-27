@@ -1,0 +1,51 @@
+<?php
+$produtos = [
+  [
+    'id' => 1,
+    'nome' => 'Spray Finalizador Cachos',
+    'descricao' => "Essa é a descrição do produto 1",
+    'preco' => 24.99,
+    'imagem' => 'produto1.jpg',
+    'categoria_id' => 1,
+  ],
+  [
+    'id' => 2,
+    'nome' => 'Spray Térmico Rhenuks',
+    'descricao' => "Essa é a descrição do produto 2",
+    'preco' => 24.99,
+    'imagem' => 'produto2.jpg',
+    'categoria_id' => 1,
+  ],
+  [
+    'id' => 3,
+    'nome' => 'Spray Finalizador Truss',
+    'descricao' => "Essa é a descrição do produto 3",
+    'preco' => 109.99,
+    'imagem' => 'produto3.jpg',
+    'categoria_id' => 2,
+  ],
+  [
+    'id' => 4,
+    'nome' => 'Primer Vizzela',
+    'descricao' => "Essa é a descrição do produto 4",
+    'preco' => 54.99,
+    'imagem' => 'produto4.jpg',
+    'categoria_id' => 2,
+  ],
+  [
+    'id' => 5,
+    'nome' => 'Sabonete Líquido Corporal',
+    'descricao' => "Essa é a descrição do produto 5",
+    'preco' => 19.99,
+    'imagem' => 'produto5.jpg',
+    'categoria_id' => 2,
+  ],
+  [
+    'id' => 6,
+    'nome' => 'Esfoliante Corporal Fenza',
+    'descricao' => "Essa é a descrição do produto 6",
+    'preco' => 24.99,
+    'imagem' => 'produto6.jpg',
+    'categoria_id' => 3,
+  ],
+];
