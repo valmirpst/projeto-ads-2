@@ -80,7 +80,7 @@ $produtos = [
       <?php foreach ($produtos as $produto) : ?>
         <div class="produto-item">
           <!-- Foto do produto -->
-          <a href="?pagina=produto&id=<?= $produto['id'] ?>" class="small produto-imagem p-0 text-center col-6">
+          <a href="<?= $baseUrl ?>/produtos/<?= $produto['id'] ?>" class="small produto-imagem p-0 text-center col-6">
             <img
               src="assets/images/<?= $produto['imagem'] ?>"
               alt="<?= $produto['nome'] ?>"
@@ -89,7 +89,7 @@ $produtos = [
           </a>
           <div class="d-flex flex-column">
             <!-- Nome do produto -->
-            <a href="?pagina=produto&id=<?= $produto['id'] ?>" class="produto-nome text-body text-decoration-none">
+            <a href="<?= $baseUrl ?>/produtos/<?= $produto['id'] ?>" class="produto-nome text-body text-decoration-none">
               <?= $produto['nome'] ?>
             </a>
             <!-- Preço do produto -->

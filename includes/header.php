@@ -1,8 +1,9 @@
 <?php
+$baseUrl = $baseUrl ?? '';
 $navLinks = [
-  ['name' => 'Início', 'href' => '?pagina=home',],
-  ['name' => 'Produtos', 'href' => '?pagina=produtos'],
-  ['name' => 'Sobre', 'href' => '?pagina=sobre'],
+  ['name' => 'Início', 'href' => $baseUrl . '/'],
+  ['name' => 'Produtos', 'href' => $baseUrl . '/produtos'],
+  ['name' => 'Sobre', 'href' => $baseUrl . '/sobre'],
 ];
 ?>
 
@@ -60,7 +61,7 @@ $navLinks = [
       </button>
 
       <!-- Logo -->
-      <a class="navbar-brand position-absolute start-50 translate-middle-x m-0" href="?pagina=home">
+      <a class="navbar-brand position-absolute start-50 translate-middle-x m-0" href="<?= $baseUrl ?>/">
         <img src="assets/images/ManuMakeLogoSemFundo.png" alt="Logo" width="128" height="64">
       </a>
 

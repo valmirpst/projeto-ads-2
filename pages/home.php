@@ -1,4 +1,5 @@
 <?php
+$baseUrl = $baseUrl ?? '';
 $categorias = [
   ['id' => 1, 'nome' => 'Body Splash', 'slug' => 'body-splash', 'imagem' => 'body-splash.jpg'],
   ['id' => 2, 'nome' => 'Bolsas e Mochilas', 'slug' => 'bolsas-mochilas', 'imagem' => 'bolsas-mochilas.jpg'],
@@ -18,7 +19,7 @@ $categorias = [
     <div class="hero-content mx-auto d-flex flex-column gap-3">
       <h1 class="display-1 ">BELEZA QUE IMPRESSIONA</h1>
       <p class="hero-subtitle fw-light mb-4">Realce sua essência, cuide da sua pele e encontre o presente perfeito em um só lugar!</p>
-      <a href="?pagina=produtos" class="btn btn-primary py-2 mx-auto rounded-5 px-5 fw-medium mt-5">Ver Todos os Produtos</a>
+      <a href="<?= $baseUrl ?>/produtos" class="btn btn-primary py-2 mx-auto rounded-5 px-5 fw-medium mt-5">Ver Todos os Produtos</a>
     </div>
   </section>
 
@@ -27,7 +28,7 @@ $categorias = [
     <h2 class="display-6 text-center mb-4">Categorias</h2>
     <div class="row g-3 mx-auto items-grid">
       <?php foreach ($categorias as $categoria) : ?>
-        <a href="?pagina=produtos&categoria=<?= $categoria['slug'] ?>" class="small categoria-item p-0 text-center col-6">
+        <a href="<?= $baseUrl ?>/produtos?categoria=<?= $categoria['slug'] ?>" class="small categoria-item p-0 text-center col-6">
           <img
             src="assets/images/<?= $categoria['imagem'] ?>"
             alt="<?= $categoria['nome'] ?>"
