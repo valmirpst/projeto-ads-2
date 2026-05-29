@@ -28,11 +28,11 @@ $baseUrl = $baseUrl ?? '';
       </div>
     </div>
 
-    <div class="row mx-auto items-grid">
+    <div class="produtos-grid mx-auto">
       <?php foreach ($produtos as $produto) : ?>
         <div class="produto-item">
           <!-- Foto do produto -->
-          <a href="<?= $baseUrl ?>/produtos/<?= $produto['id'] ?>" class="small produto-imagem p-0 text-center col-6">
+          <a href="<?= $baseUrl ?>/produtos/<?= $produto['id'] ?>" class="produto-imagem text-center">
             <img
               src="<?= $baseUrl ?>/assets/images/<?= $produto['imagem'] ?>"
               alt="<?= $produto['nome'] ?>"
