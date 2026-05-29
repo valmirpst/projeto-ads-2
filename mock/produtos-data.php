@@ -3,7 +3,7 @@ $produtos = [
   [
     'id' => 1,
     'nome' => 'Spray Finalizador Cachos',
-    'descricao' => "Essa é a descrição do produto 1",
+    'descricao' => "O spray finalizador de cachos é ideal para definir, hidratar e controlar o frizz, sendo excelente para o day after. Ele reativa a memória dos fios, proporcionando movimento e brilho sem pesar. Pode ser usado em cabelos úmidos ou secos, oferecendo proteção e fixação leve a média para cacheados, crespos e em transição.",
     'preco' => 24.99,
     'imagem' => 'produto1.jpg',
     'categoria_id' => 1,
