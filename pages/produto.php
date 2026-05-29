@@ -15,6 +15,9 @@ if ($produto === null) {
   require_once __DIR__ . '/404.php';
   return;
 }
+
+$mensagemWhatsapp = rawurlencode('Olá, tenho interesse no produto: ' . $produto['nome']);
+$linkWhatsapp = "https://wa.me/55SEUNUMERO?text={$mensagemWhatsapp}";
 ?>
 
 <main class="container flex-grow-1 d-flex flex-column gap-5">
@@ -33,6 +36,14 @@ if ($produto === null) {
         <div class="fs-5">
           R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
         </div>
+        <a
+          href="<?= $linkWhatsapp ?>"
+            class="btn btn-success btn-whatsapp mt-3 align-self-start d-inline-flex align-items-center gap-2 py-2 px-4 text-white fw-medium rounded-pill w-100 text-center justify-content-center"
+          target="_blank"
+          rel="noopener noreferrer">
+          <i class="bi bi-whatsapp"></i>
+          Continuar no Whatsapp
+        </a>
       </div>
     </div>
   </section>

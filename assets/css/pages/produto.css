@@ -1,0 +1,9 @@
+.btn-whatsapp {
+  background-color: #25d366;
+  border-color: #25d366;
+}
+
+.btn-whatsapp:hover {
+  background-color: #1ebe6b;
+  border-color: #1ebe6b;
+}
