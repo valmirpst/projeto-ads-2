@@ -41,7 +41,7 @@ $breadcrumbs = [
           <!-- Foto do produto -->
           <a href="<?= $baseUrl ?>/produtos/<?= $produto['id'] ?>" class="produto-imagem text-center">
             <img
-              src="<?= $baseUrl ?>/assets/images/<?= $produto['imagem'] ?>"
+              src="<?= $baseUrl ?>/uploads/<?= $produto['imagem'] ?>"
               alt="<?= $produto['nome'] ?>"
               class="grid-item-imagem"
               onerror="this.onerror=null;this.src='<?= $baseUrl ?>/assets/images/fallback.jpg';">

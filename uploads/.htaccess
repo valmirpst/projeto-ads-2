@@ -1,0 +1,7 @@
+# uploads/.htaccess
+
+# Permite acessar as imagens, mas impede executar PHP
+
+<FilesMatch "\.php$">
+Deny from all
+</FilesMatch>
