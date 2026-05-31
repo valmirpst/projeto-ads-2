@@ -1,7 +1,14 @@
 <?php
 require_once __DIR__ . '/../mock/produtos-data.php';
 $baseUrl = $baseUrl ?? '';
+
+$breadcrumbs = [
+  ['name' => 'Início', 'href' => $baseUrl . '/'],
+  ['name' => 'Produtos', 'href' => $baseUrl . '/produtos'],
+];
 ?>
+
+<?php require_once __DIR__ . '/../includes/breadcrumb.php'; ?>
 
 <main class="container flex-grow-1 d-flex flex-column gap-5">
   <section class="container-sm pt-4">

@@ -62,3 +62,12 @@
 img {
   width: 100%;
 }
+
+.breadcrumb {
+  position: relative;
+  z-index: 9999;
+}
+.breadcrumb a {
+  position: relative;
+  z-index: 10000;
+}

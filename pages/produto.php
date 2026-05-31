@@ -19,7 +19,15 @@ if ($produto === null) {
 $numeroTelefone = '5544999999999';
 $mensagemWhatsapp = rawurlencode('Olá, tenho interesse no produto: ' . $produto['nome']);
 $linkWhatsapp = "https://wa.me/$numeroTelefone?text={$mensagemWhatsapp}";
+
+$breadcrumbs = [
+  ['name' => 'Início', 'href' => $baseUrl . '/'],
+  ['name' => 'Produtos', 'href' => $baseUrl . '/produtos'],
+  ['name' => $produto['nome'], 'href' => $baseUrl . '/produtos/' . $produto['id']],
+];
 ?>
+
+<?php require_once __DIR__ . '/../includes/breadcrumb.php'; ?>
 
 <main class="container flex-grow-1 d-flex flex-column gap-5">
   <section class="container-sm pt-4">
@@ -40,7 +48,7 @@ $linkWhatsapp = "https://wa.me/$numeroTelefone?text={$mensagemWhatsapp}";
           </div>
           <a
             href="<?= $linkWhatsapp ?>"
-            class="btn btn-success btn-whatsapp mt-3 align-self-start d-inline-flex align-items-center gap-2 py-2 px-4 text-white fw-medium rounded-pill w-100 text-center justify-content-center"
+            class="btn btn-success btn-whatsapp mt-3 align-self-start d-inline-flex align-items-center gap-2 py-2 px-4 text-white fw-semibold rounded-pill w-100 text-center justify-content-center"
             target="_blank"
             rel="noopener noreferrer">
             <i class="bi bi-whatsapp"></i>
