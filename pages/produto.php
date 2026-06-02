@@ -1,15 +1,11 @@
 <?php
-require_once __DIR__ . '/../mock/produtos-data.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/functions.php';
+
 $baseUrl = $baseUrl ?? '';
 $produtoId = $produtoId ?? null;
-$produto = null;
 
-foreach ($produtos as $item) {
-  if ((int) $item['id'] === (int) $produtoId) {
-    $produto = $item;
-    break;
-  }
-}
+$produto = buscarProdutoPorId($pdo, $produtoId);
 
 if ($produto === null) {
   require_once __DIR__ . '/404.php';

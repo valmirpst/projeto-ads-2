@@ -1,17 +1,12 @@
 <?php
-$baseUrl = $baseUrl ?? '';
-$categorias = [
-  ['id' => 1, 'nome' => 'Body Splash', 'slug' => 'body-splash', 'imagem' => 'body-splash.jpg'],
-  ['id' => 2, 'nome' => 'Bolsas e Mochilas', 'slug' => 'bolsas-mochilas', 'imagem' => 'bolsas-mochilas.jpg'],
-  ['id' => 3, 'nome' => 'Copos e Garrafas Térmicas', 'slug' => 'copos-garrafas-termicas', 'imagem' => 'copos-garrafas-termicas.jpg'],
-  ['id' => 4, 'nome' => 'Cuidado para o Cabelo', 'slug' => 'cuidado-cabelo', 'imagem' => 'cuidado-cabelo.jpg'],
-  ['id' => 5, 'nome' => 'Cuidado com a Pele', 'slug' => 'cuidado-pele', 'imagem' => 'cuidado-pele.jpg'],
-  ['id' => 6, 'nome' => 'Gloss Labial', 'slug' => 'gloss-labial', 'imagem' => 'gloss-labial.jpg'],
-  ['id' => 7, 'nome' => 'Kits para Presentes', 'slug' => 'kits-presentes', 'imagem' => 'kits-presentes.jpg'],
-  ['id' => 8, 'nome' => 'Maquiagem', 'slug' => 'maquiagem', 'imagem' => 'maquiagem.jpg'],
-]
-?>
 
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/functions.php';
+
+$baseUrl = $baseUrl ?? '';
+$categorias = buscarCategorias($pdo);
+
+?>
 
 <main class="container flex-grow-1 d-flex flex-column gap-5">
   <!-- Hero -->
@@ -24,19 +19,21 @@ $categorias = [
   </section>
 
   <!-- Categorias -->
-  <section class="container-sm pt-112">
-    <h2 class="display-6 text-center mb-4">Categorias</h2>
-    <div class="row g-3 mx-auto items-grid">
-      <?php foreach ($categorias as $categoria) : ?>
-        <a href="<?= $baseUrl ?>/produtos?categoria=<?= $categoria['slug'] ?>" class="small categoria-item p-0 text-center col-6">
-          <img
-            src="<?= $baseUrl ?>/assets/images/<?= $categoria['imagem'] ?>"
-            alt="<?= $categoria['nome'] ?>"
-            class="grid-item-imagem"
-            onerror="this.onerror=null;this.src='<?= $baseUrl ?>/assets/images/fallback.jpg';">
-          <h6 class="w-100"><?= $categoria['nome'] ?></h6>
-        </a>
-      <?php endforeach; ?>
-    </div>
-  </section>
+  <?php if (!empty($categorias)) : ?>
+    <section class="container-sm pt-112">
+      <h2 class="display-6 text-center mb-4">Categorias</h2>
+      <div class="row g-3 mx-auto items-grid">
+        <?php foreach ($categorias as $categoria) : ?>
+          <a href="<?= $baseUrl ?>/produtos?categoria=<?= $categoria['slug'] ?>" class="small categoria-item p-0 text-center col-6">
+            <img
+              src="<?= $baseUrl ?>/assets/images/<?= $categoria['imagem'] ?>"
+              alt="<?= $categoria['nome'] ?>"
+              class="grid-item-imagem"
+              onerror="this.onerror=null;this.src='<?= $baseUrl ?>/assets/images/fallback.jpg';">
+            <h6 class="w-100"><?= $categoria['nome'] ?></h6>
+          </a>
+        <?php endforeach; ?>
+      </div>
+    </section>
+  <?php endif; ?>
 </main>

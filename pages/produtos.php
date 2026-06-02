@@ -1,11 +1,17 @@
 <?php
-require_once __DIR__ . '/../mock/produtos-data.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/functions.php';
+
 $baseUrl = $baseUrl ?? '';
 
 $breadcrumbs = [
   ['name' => 'Início', 'href' => $baseUrl . '/'],
   ['name' => 'Produtos', 'href' => $baseUrl . '/produtos'],
 ];
+
+$categoriaSlug = $_GET['categoria'] ?? null;
+$produtos = buscarProdutos($pdo, $categoriaSlug);
+
 ?>
 
 <?php require_once __DIR__ . '/../includes/breadcrumb.php'; ?>
@@ -36,6 +42,15 @@ $breadcrumbs = [
     </div>
 
     <div class="produtos-grid mx-auto">
+      <!-- If empty -->
+      <?php if (empty($produtos)) : ?>
+        <div class="w-100">
+          <p>Nenhum produto encontrado.</p>
+          <?php if ($categoriaSlug) : ?>
+            <a href="<?= $baseUrl ?>/produtos" class="btn btn-outline-primary py-2 px-4 rounded-5 fw-medium">Ver Todos os Produtos</a>
+          <?php endif; ?>
+        </div>
+      <?php endif; ?>
       <?php foreach ($produtos as $produto) : ?>
         <div class="produto-item">
           <!-- Foto do produto -->
