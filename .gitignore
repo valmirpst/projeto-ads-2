@@ -1,5 +1,5 @@
 # Arquivo de configuração do banco de dados
-config/database.php
+env.php
 
 # Diretório de uploads (salvo o arquivo .htaccess para proteger os arquivos)
 uploads/*
