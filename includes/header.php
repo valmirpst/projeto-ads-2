@@ -48,7 +48,7 @@ $navLinks = [
 
       <!-- Hamburger -->
       <button
-        class=" navbar-toggler border-0 shadow-none"
+        class="navbar-toggler border-0 shadow-none d-lg-none"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent"
@@ -65,9 +65,18 @@ $navLinks = [
         <img src="<?= $baseUrl ?>/assets/images/ManuMakeLogoSemFundo.png" alt="Logo" width="128" height="64">
       </a>
 
+      <!-- Links Desktop -->
+      <ul class="navbar-nav d-none d-lg-flex flex-row gap-4">
+        <?php foreach ($navLinks as $link): ?>
+          <li class="nav-item">
+            <a class="nav-link" href="<?= $link['href'] ?>"><?= $link['name'] ?></a>
+          </li>
+        <?php endforeach; ?>
+      </ul>
+
     </nav>
     <!-- Navbar collapsed -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse d-lg-none" id="navbarSupportedContent">
       <ul class="navbar-nav px-4 py-1">
         <?php foreach ($navLinks as $link): ?>
           <li class="nav-item">
