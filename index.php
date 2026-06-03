@@ -37,6 +37,7 @@
     'produtos' => 'pages/produtos.php',
     'produto' => 'pages/produto.php',
     'sobre' => 'pages/sobre.php',
+    'termos' => 'pages/termos.php',
   ];
 
   if ($pagina === 'produto' && $produtoId === null) {

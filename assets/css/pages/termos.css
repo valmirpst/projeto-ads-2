@@ -1,0 +1,13 @@
+.termos-intro,
+.termos-content {
+  max-width: 760px;
+}
+
+.termos-item {
+  border: 1px solid var(--bs-gray-200);
+  border-radius: 0.5rem;
+}
+
+.termos-item p {
+  line-height: 1.75;
+}
