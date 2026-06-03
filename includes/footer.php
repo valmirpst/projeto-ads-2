@@ -10,8 +10,8 @@ $baseUrl = $baseUrl ?? '';
   <div class="d-flex flex-wrap gap-5 mt-4 px-3 py-3">
     <div class="d-flex flex-column gap-2">
       <h6>Contato</h6>
-      <a class="link-body-emphasis link-underline-opacity-50" href="<?= $baseUrl ?>/sobre">Sobre Nós</a>
       <a class="link-body-emphasis link-underline-opacity-50" href="https://www.instagram.com/manumakestoreoficial/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a class="link-body-emphasis link-underline-opacity-50" href="<?= $baseUrl ?>/sobre">Sobre Nós</a>
       <a class="link-body-emphasis link-underline-opacity-50" href="<?= $baseUrl ?>/termos">Termos de Uso</a>
     </div>
     <div class="d-flex flex-column gap-2">
