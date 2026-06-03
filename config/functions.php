@@ -31,3 +31,19 @@ function buscarProdutoPorId(PDO $pdo, int|null $id): array|null
   $stmt->execute([':id' => $id]);
   return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
 }
+
+function buscarCaracteristicasDoProduto(PDO $pdo, int $produtoId): array
+{
+  $sql = "
+    SELECT c.id, c.nome
+    FROM caracteristica c
+    INNER JOIN produto_caracteristica pc ON pc.caracteristica_id = c.id
+    WHERE pc.produto_id = :produto_id
+    ORDER BY c.nome
+  ";
+
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute([':produto_id' => $produtoId]);
+
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}

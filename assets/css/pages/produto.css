@@ -7,3 +7,11 @@
   background-color: #1ebe6b;
   border-color: #1ebe6b;
 }
+
+.produto-caracteristica {
+  border: 1px solid var(--bs-primary-lighter);
+  border-radius: 999px;
+  color: var(--bs-primary-dark);
+  line-height: 1;
+  padding: 0.375rem 0.75rem;
+}

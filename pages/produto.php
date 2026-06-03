@@ -12,6 +12,8 @@ if ($produto === null) {
   return;
 }
 
+$caracteristicas = buscarCaracteristicasDoProduto($pdo, (int) $produto['id']);
+
 $numeroTelefone = '5544999999999';
 $mensagemWhatsapp = rawurlencode('Olá, tenho interesse no produto: ' . $produto['nome']);
 $linkWhatsapp = "https://wa.me/$numeroTelefone?text={$mensagemWhatsapp}";
@@ -42,6 +44,18 @@ $breadcrumbs = [
           <div class="fs-5">
             R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
           </div>
+          <?php if (!empty($caracteristicas)) : ?>
+            <div class="produto-caracteristicas d-flex flex-column gap-2 mt-2">
+              <span class="small text-muted">Características</span>
+              <div class="d-flex flex-wrap gap-2">
+                <?php foreach ($caracteristicas as $caracteristica) : ?>
+                  <span class="produto-caracteristica small">
+                    <?= $caracteristica['nome'] ?>
+                  </span>
+                <?php endforeach; ?>
+              </div>
+            </div>
+          <?php endif; ?>
           <a
             href="<?= $linkWhatsapp ?>"
             class="btn btn-success btn-whatsapp mt-3 align-self-start d-inline-flex align-items-center gap-2 py-2 px-4 text-white fw-semibold rounded-pill w-100 text-center justify-content-center"
