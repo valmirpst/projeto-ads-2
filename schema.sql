@@ -57,3 +57,9 @@ ALTER TABLE produto_caracteristica
 ALTER TABLE produto
     ADD CONSTRAINT produto_categoria_id_foreign FOREIGN KEY(categoria_id)
     REFERENCES categoria(id);
+
+------------------------------------------------------------
+-- Índices
+------------------------------------------------------------
+ALTER TABLE produto
+ADD INDEX produto_categoria_id_index (categoria_id);
