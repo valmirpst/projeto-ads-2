@@ -1,3 +1,6 @@
+# Variáveis de ambiente
+.env*
+
 # Arquivo de configuração do banco de dados
 env.php
 
