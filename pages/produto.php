@@ -15,7 +15,7 @@ if ($produto === null) {
 $caracteristicas = buscarCaracteristicasDoProduto($pdo, (int) $produto['id']);
 
 $numeroTelefone = '554488370773';
-$mensagemWhatsapp = rawurlencode('Olá, tenho interesse no produto: ' . $produto['nome'] . ' (' . $baseUrl . '/produtos/' . $produto['id'] . ')');
+$mensagemWhatsapp = rawurlencode('Olá, tenho interesse no produto: *' . $produto['nome'] . '* (' . $baseUrl . '/produtos/' . $produto['id'] . ')');
 $linkWhatsapp = "https://wa.me/$numeroTelefone?text={$mensagemWhatsapp}";
 
 $breadcrumbs = [

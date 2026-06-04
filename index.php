@@ -2,7 +2,8 @@
 
   <?php
   $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-  $base = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+  $scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
+  $base = rtrim(str_replace('\\', '/', dirname($scriptName)), '/');
   $baseUrl = $base === '/' ? '' : $base;
 
   if ($baseUrl !== '') {
