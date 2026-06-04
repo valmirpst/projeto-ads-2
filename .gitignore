@@ -1,3 +1,6 @@
+# Ignorar a .github temporariamente (estou usando o projeto para realizar testes com o Copilot)
+.github/
+
 # Variáveis de ambiente
 .env*
 
