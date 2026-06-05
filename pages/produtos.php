@@ -9,8 +9,22 @@ $breadcrumbs = [
   ['name' => 'Produtos', 'href' => $baseUrl . '/produtos'],
 ];
 
+function montarUrlProdutos(string $baseUrl, array $params = []): string
+{
+  $params = array_filter($params, fn($valor) => $valor !== null && $valor !== '');
+  $query = http_build_query($params);
+
+  return $baseUrl . '/produtos' . ($query ? '?' . $query : '');
+}
+
 $categoriaSlug = $_GET['categoria'] ?? null;
-$produtos = buscarProdutos($pdo, $categoriaSlug);
+$ordenar = $_GET['ordenar'] ?? '';
+$categorias = buscarCategorias($pdo);
+$produtos = buscarProdutos($pdo, $categoriaSlug, $ordenar);
+$filtrosAtivos = $categoriaSlug;
+$filtrosCompartilhados = [
+  'ordenar' => $ordenar,
+];
 
 ?>
 
@@ -20,59 +34,117 @@ $produtos = buscarProdutos($pdo, $categoriaSlug);
   <section class="container-sm pt-4">
     <h2 class="fw-light fs-3 mb-5">Todos os produtos</h2>
 
-    <div class="w-100 d-flex flex-wrap justify-content-between align-items-center mb-3 lh-1 row-gap-2">
-      <!-- <button
-        class="btn btn-sm btn-outline-primary py-1 px-3 d-flex align-items-center gap-1_5"
+    <div class="w-100 d-flex  justify-content-between align-items-center mb-3 lh-1 row-gap-2 column-gap-1">
+      <button
+        class="d-flex d-lg-none btn btn-sm btn-outline-primary py-1 px-3 align-items-center gap-1_5"
         type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#filtrosCollapse">
+        data-bs-toggle="offcanvas"
+        data-bs-target="#filtrosOffcanvas"
+        aria-controls="filtrosOffcanvas"
+        aria-expanded="false">
         <i class="bi bi-funnel" style="font-size: 0.875rem;"></i>
         <span>Filtros</span>
-      </button> -->
-      <div class="w-100 text-end small d-flex align-items-center justify-content-end gap-1_5">
-        <label for="ordenar">Ordenar por</label>
-        <select class=" border-0 rounded-0" id="ordenar">
-          <option value="">Mais relevantes</option>
-          <option value="preco-asc">Preço: menor para maior</option>
-          <option value="preco-desc">Preço: maior para menor</option>
-          <option value="nome-asc">Nome: A-Z</option>
-          <option value="nome-desc">Nome: Z-A</option>
-        </select>
-      </div>
+      </button>
+
+      <form class="ms-auto small d-flex flex-wrap align-items-center gap-0_5 column-gap-1 mb-0" method="get">
+        <?php if ($categoriaSlug) : ?>
+          <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoriaSlug) ?>">
+        <?php endif; ?>
+        <div class="ordenar-filtro-container d-flex flex-column align-items-sm-center flex-sm-row ms-auto gap-0_5 column-gap-1">
+          <label for="ordenar" class="ps-1 fw-light">Ordenar por</label>
+          <select class="border-0 rounded-0" id="ordenar" name="ordenar" onchange="this.form.submit()">
+            <option value="">Mais relevantes</option>
+            <option value="preco-asc" <?= $ordenar === 'preco-asc' ? 'selected' : '' ?>>Preço: menor para maior</option>
+            <option value="preco-desc" <?= $ordenar === 'preco-desc' ? 'selected' : '' ?>>Preço: maior para menor</option>
+            <option value="nome-asc" <?= $ordenar === 'nome-asc' ? 'selected' : '' ?>>Nome: A-Z</option>
+            <option value="nome-desc" <?= $ordenar === 'nome-desc' ? 'selected' : '' ?>>Nome: Z-A</option>
+          </select>
+        </div>
+      </form>
     </div>
 
-    <div class="produtos-grid mx-auto">
-      <!-- If empty -->
-      <?php if (empty($produtos)) : ?>
-        <div class="w-100">
-          <p>Nenhum produto encontrado.</p>
-          <?php if ($categoriaSlug) : ?>
-            <a href="<?= $baseUrl ?>/produtos" class="btn btn-outline-primary py-2 px-4 rounded-5 fw-medium">Ver Todos os Produtos</a>
-          <?php endif; ?>
-        </div>
-      <?php endif; ?>
-      <?php foreach ($produtos as $produto) : ?>
-        <div class="produto-item">
-          <!-- Foto do produto -->
-          <a href="<?= $baseUrl ?>/produtos/<?= $produto['id'] ?>" class="produto-imagem text-center">
-            <img
-              src="<?= $baseUrl ?>/uploads/<?= $produto['imagem'] ?>"
-              alt="<?= $produto['nome'] ?>"
-              class="grid-item-imagem"
-              onerror="this.onerror=null;this.src='<?= $baseUrl ?>/assets/images/fallback.jpg';">
-          </a>
-          <div class="d-flex flex-column">
-            <!-- Nome do produto -->
-            <a href="<?= $baseUrl ?>/produtos/<?= $produto['id'] ?>" class="produto-nome text-body text-decoration-none">
-              <?= $produto['nome'] ?>
-            </a>
-            <!-- Preço do produto -->
-            <span>
-              R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
-            </span>
+    <div class="row g-4 align-items-start">
+      <aside class="col-lg-3 order-lg-first">
+        <div
+          class="offcanvas-lg offcanvas-start filtros-offcanvas"
+          tabindex="-1"
+          id="filtrosOffcanvas"
+          aria-labelledby="filtrosOffcanvasLabel">
+          <div class="offcanvas-header d-lg-none border-bottom">
+            <h3 class="fs-6 fw-medium mb-0" id="filtrosOffcanvasLabel">Filtros</h3>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="offcanvas"
+              data-bs-target="#filtrosOffcanvas"
+              aria-label="Fechar filtros"></button>
+          </div>
+          <div class="offcanvas-body p-0 d-block">
+            <div class="filtros-sidebar p-3">
+              <div class="d-flex align-items-center justify-content-between gap-2 mb-3">
+                <h3 class="fs-6 fw-medium mb-0 d-none d-lg-block">Filtros</h3>
+                <?php if ($filtrosAtivos) : ?>
+                  <a href="<?= $baseUrl ?>/produtos" class="small link-body-emphasis">Limpar</a>
+                <?php endif; ?>
+              </div>
+
+              <div class="filtro-grupo">
+                <h4 class="filtro-titulo">Categorias</h4>
+                <div class="d-flex flex-column gap-2">
+                  <a
+                    href="<?= montarUrlProdutos($baseUrl, $filtrosCompartilhados) ?>"
+                    class="filtro-link <?= !$categoriaSlug ? 'active' : '' ?>">
+                    Todas
+                  </a>
+                  <?php foreach ($categorias as $categoria) : ?>
+                    <a
+                      href="<?= montarUrlProdutos($baseUrl, array_merge($filtrosCompartilhados, ['categoria' => $categoria['slug']])) ?>"
+                      class="filtro-link <?= $categoriaSlug === $categoria['slug'] ? 'active' : '' ?>">
+                      <?= htmlspecialchars($categoria['nome']) ?>
+                    </a>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      <?php endforeach; ?>
+      </aside>
+
+      <div class="col-lg-9">
+        <div class="produtos-grid mx-auto">
+          <!-- If empty -->
+          <?php if (empty($produtos)) : ?>
+            <div class="produtos-vazio">
+              <p>Nenhum produto encontrado.</p>
+              <?php if ($filtrosAtivos) : ?>
+                <a href="<?= $baseUrl ?>/produtos" class="btn btn-outline-primary py-2 px-4 rounded-5 fw-medium">Ver Todos os Produtos</a>
+              <?php endif; ?>
+            </div>
+          <?php endif; ?>
+          <?php foreach ($produtos as $produto) : ?>
+            <div class="produto-item">
+              <!-- Foto do produto -->
+              <a href="<?= $baseUrl ?>/produtos/<?= $produto['id'] ?>" class="produto-imagem text-center">
+                <img
+                  src="<?= $baseUrl ?>/uploads/<?= $produto['imagem'] ?>"
+                  alt="<?= $produto['nome'] ?>"
+                  class="grid-item-imagem"
+                  onerror="this.onerror=null;this.src='<?= $baseUrl ?>/assets/images/fallback.jpg';">
+              </a>
+              <div class="d-flex flex-column">
+                <!-- Nome do produto -->
+                <a href="<?= $baseUrl ?>/produtos/<?= $produto['id'] ?>" class="produto-nome text-body text-decoration-none">
+                  <?= $produto['nome'] ?>
+                </a>
+                <!-- Preço do produto -->
+                <span>
+                  R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
+                </span>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
     </div>
   </section>
 </main>

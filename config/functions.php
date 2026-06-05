@@ -4,19 +4,34 @@ require_once __DIR__ . '/../config/database.php';
 
 function buscarCategorias(PDO $pdo): array
 {
-  $sql = "SELECT id, nome, slug, imagem FROM categoria";
+  $sql = "SELECT id, nome, slug, imagem FROM categoria ORDER BY ordem, nome";
   return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function buscarProdutos(PDO $pdo, ?string $categoriaSlug = null): array
+function buscarProdutos(PDO $pdo, ?string $categoriaSlug = null, ?string $ordenar = null): array
 {
   $sql = "SELECT p.id, p.nome, p.preco, p.imagem FROM produto p";
   $params = [];
+  $where = [];
 
   if ($categoriaSlug) {
-    $sql .= " JOIN categoria c ON p.categoria_id = c.id WHERE c.slug = :slug";
+    $sql .= " JOIN categoria c ON p.categoria_id = c.id";
+    $where[] = "c.slug = :slug";
     $params[':slug'] = $categoriaSlug;
   }
+
+  if (!empty($where)) {
+    $sql .= " WHERE " . implode(" AND ", $where);
+  }
+
+  $ordenacoes = [
+    'preco-asc' => 'p.preco ASC',
+    'preco-desc' => 'p.preco DESC',
+    'nome-asc' => 'p.nome ASC',
+    'nome-desc' => 'p.nome DESC',
+  ];
+
+  $sql .= " ORDER BY " . ($ordenacoes[$ordenar] ?? 'p.id DESC');
 
   $stmt = $pdo->prepare($sql);
   $stmt->execute($params);
