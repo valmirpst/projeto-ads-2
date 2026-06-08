@@ -21,7 +21,8 @@ $categoriaSlug = $_GET['categoria'] ?? null;
 $ordenar = $_GET['ordenar'] ?? '';
 $categorias = buscarCategorias($pdo);
 $produtos = buscarProdutos($pdo, $categoriaSlug, $ordenar);
-$filtrosAtivos = $categoriaSlug;
+$totalFiltrosAtivos = $categoriaSlug ? 1 : 0;
+$filtrosAtivos = $totalFiltrosAtivos > 0;
 $filtrosCompartilhados = [
   'ordenar' => $ordenar,
 ];
@@ -44,6 +45,11 @@ $filtrosCompartilhados = [
         aria-expanded="false">
         <i class="bi bi-funnel" style="font-size: 0.875rem;"></i>
         <span>Filtros</span>
+        <?php if ($filtrosAtivos) : ?>
+          <span class="badge rounded-pill text-bg-primary filtros-badge" aria-label="<?= $totalFiltrosAtivos ?> filtro ativo">
+            <?= $totalFiltrosAtivos ?>
+          </span>
+        <?php endif; ?>
       </button>
 
       <form class="ms-auto small d-flex flex-wrap align-items-center gap-0_5 column-gap-1 mb-0" method="get">
