@@ -1,9 +1,11 @@
 <?php
 $baseUrl = $baseUrl ?? '';
+$currentPage = $pagina ?? 'home';
+
 $navLinks = [
-  ['name' => 'Início', 'href' => $baseUrl . '/'],
-  ['name' => 'Produtos', 'href' => $baseUrl . '/produtos'],
-  ['name' => 'Sobre', 'href' => $baseUrl . '/sobre'],
+  ['name' => 'Início', 'href' => $baseUrl . '/', 'page' => 'home'],
+  ['name' => 'Produtos', 'href' => $baseUrl . '/produtos', 'page' => 'produtos'],
+  ['name' => 'Sobre', 'href' => $baseUrl . '/sobre', 'page' => 'sobre'],
 ];
 ?>
 
@@ -70,20 +72,31 @@ $navLinks = [
       <ul class="navbar-nav d-none d-lg-flex flex-row gap-4">
         <?php foreach ($navLinks as $link): ?>
           <li class="nav-item">
-            <a class="nav-link" href="<?= $link['href'] ?>"><?= $link['name'] ?></a>
+            <a
+              class="nav-link <?= $currentPage === $link['page'] ? 'active' : '' ?>"
+              href="<?= $link['href'] ?>">
+              <?= $link['name'] ?>
+            </a>
           </li>
         <?php endforeach; ?>
       </ul>
 
     </nav>
-    <!-- Navbar collapsed -->
+
+    <!-- Mobile -->
     <div class="collapse navbar-collapse d-lg-none" id="navbarSupportedContent">
       <ul class="navbar-nav px-4 py-1">
+
         <?php foreach ($navLinks as $link): ?>
           <li class="nav-item">
-            <a class="nav-link" href="<?= $link['href'] ?>"><?= $link['name'] ?></a>
+            <a
+              class="nav-link <?= $currentPage === $link['page'] ? 'active' : '' ?>"
+              href="<?= $link['href'] ?>">
+              <?= $link['name'] ?>
+            </a>
           </li>
         <?php endforeach; ?>
+
       </ul>
     </div>
 
