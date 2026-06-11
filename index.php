@@ -1,36 +1,38 @@
+<?php
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
+$base = rtrim(str_replace('\\', '/', dirname($scriptName)), '/');
+$baseUrl = $base === '/' ? '' : $base;
+
+if ($baseUrl !== '') {
+  $path = preg_replace('#^' . preg_quote($baseUrl, '#') . '#', '', $path);
+}
+
+$path = trim($path, '/');
+$segments = $path === '' ? [] : explode('/', $path);
+
+$pagina = null;
+$produtoId = null;
+
+if (!empty($segments)) {
+  $pagina = $segments[0];
+
+  if ($pagina === 'produtos' && isset($segments[1]) && ctype_digit($segments[1])) {
+    $pagina = 'produto';
+    $produtoId = (int) $segments[1];
+  }
+}
+
+if ($pagina === null || $pagina === '') {
+  $pagina = 'home';
+}
+
+$stylesheet = $pagina . '.css';
+?>
+
 <div class="d-flex flex-column min-vh-100">
 
   <?php
-  $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-  $scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
-  $base = rtrim(str_replace('\\', '/', dirname($scriptName)), '/');
-  $baseUrl = $base === '/' ? '' : $base;
-
-  if ($baseUrl !== '') {
-    $path = preg_replace('#^' . preg_quote($baseUrl, '#') . '#', '', $path);
-  }
-
-  $path = trim($path, '/');
-  $segments = $path === '' ? [] : explode('/', $path);
-
-  $pagina = null;
-  $produtoId = null;
-
-  if (!empty($segments)) {
-    $pagina = $segments[0];
-
-    if ($pagina === 'produtos' && isset($segments[1]) && ctype_digit($segments[1])) {
-      $pagina = 'produto';
-      $produtoId = (int) $segments[1];
-    }
-  }
-
-  if ($pagina === null || $pagina === '') {
-    $pagina = 'home';
-  }
-
-  $stylesheet = $pagina . '.css';
-
   require_once 'includes/header.php';
 
   $rotas = [

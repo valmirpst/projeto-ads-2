@@ -2,6 +2,31 @@
   height: 80px;
 }
 
+.header-busca {
+  display: flex;
+  max-width: 280px;
+  width: 100%;
+}
+
+.header-busca .form-control {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  font-size: 0.875rem;
+}
+
+.header-busca .btn {
+  align-items: center;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  display: inline-flex;
+  justify-content: center;
+  width: 44px;
+}
+
+.header-busca-mobile {
+  max-width: none;
+}
+
 @media (min-width: 992px) {
   .header nav {
     height: 96px;

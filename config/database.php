@@ -3,7 +3,6 @@
 $config = require __DIR__ . '/env.php';
 
 try {
-
   $dsn = sprintf(
     'mysql:host=%s;port=%s;dbname=%s;charset=%s',
     $config['host'],

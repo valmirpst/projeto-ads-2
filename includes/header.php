@@ -1,6 +1,7 @@
 <?php
 $baseUrl = $baseUrl ?? '';
 $currentPage = $pagina ?? 'home';
+$buscaHeader = trim($_GET['busca'] ?? '');
 
 $navLinks = [
   ['name' => 'Início', 'href' => $baseUrl . '/', 'page' => 'home'],
@@ -81,11 +82,27 @@ $navLinks = [
         <?php endforeach; ?>
       </ul>
 
+      <form class="header-busca d-none d-lg-flex ms-auto" method="get" action="<?= $baseUrl ?>/produtos">
+        <label for="busca-header-desktop" class="visually-hidden">Buscar produtos</label>
+        <input
+          type="search"
+          class="form-control"
+          id="busca-header-desktop"
+          name="busca"
+          minlength="2"
+          value="<?= htmlspecialchars($buscaHeader) ?>"
+          placeholder="Buscar produtos"
+          aria-label="Buscar produtos">
+        <button class="btn btn-primary" type="submit" aria-label="Buscar">
+          <i class="bi bi-search" aria-hidden="true"></i>
+        </button>
+      </form>
+
     </nav>
 
     <!-- Mobile -->
     <div class="collapse navbar-collapse d-lg-none" id="navbarSupportedContent">
-      <ul class="navbar-nav px-4 py-1">
+      <ul class="navbar-nav px-4 pt-1 pb-3">
 
         <?php foreach ($navLinks as $link): ?>
           <li class="nav-item">
@@ -98,6 +115,21 @@ $navLinks = [
         <?php endforeach; ?>
 
       </ul>
+      <form class="header-busca header-busca-mobile px-4 pb-4" method="get" action="<?= $baseUrl ?>/produtos">
+        <label for="busca-header-mobile" class="visually-hidden">Buscar produtos</label>
+        <input
+          type="search"
+          class="form-control"
+          id="busca-header-mobile"
+          name="busca"
+          minlength="2"
+          value="<?= htmlspecialchars($buscaHeader) ?>"
+          placeholder="Buscar produtos"
+          aria-label="Buscar produtos">
+        <button class="btn btn-primary" type="submit" aria-label="Buscar">
+          <i class="bi bi-search" aria-hidden="true"></i>
+        </button>
+      </form>
     </div>
 
   </header>

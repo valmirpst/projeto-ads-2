@@ -19,12 +19,17 @@ function montarUrlProdutos(string $baseUrl, array $params = []): string
 
 $categoriaSlug = $_GET['categoria'] ?? null;
 $ordenar = $_GET['ordenar'] ?? '';
+$busca = trim($_GET['busca'] ?? '');
+$buscaAtiva = $busca !== '';
 $categorias = buscarCategorias($pdo);
-$produtos = buscarProdutos($pdo, $categoriaSlug, $ordenar);
-$totalFiltrosAtivos = $categoriaSlug ? 1 : 0;
+$produtos = $buscaAtiva
+  ? buscarProdutosPorTermo($pdo, $busca, $categoriaSlug, $ordenar)
+  : buscarProdutos($pdo, $categoriaSlug, $ordenar);
+$totalFiltrosAtivos = ($categoriaSlug ? 1 : 0) + ($buscaAtiva ? 1 : 0);
 $filtrosAtivos = $totalFiltrosAtivos > 0;
 $filtrosCompartilhados = [
   'ordenar' => $ordenar,
+  'busca' => $busca,
 ];
 
 ?>
@@ -35,7 +40,7 @@ $filtrosCompartilhados = [
   <section class="container-sm pt-4">
     <h2 class="fw-light fs-3 mb-5">Todos os produtos</h2>
 
-    <div class="w-100 d-flex  justify-content-between align-items-center mb-3 lh-1 row-gap-2 column-gap-1">
+    <div class="w-100 d-flex justify-content-between align-items-center mb-3 lh-1 row-gap-2 column-gap-1">
       <button
         class="d-flex d-lg-none btn btn-sm btn-outline-primary py-1 px-3 align-items-center gap-1_5"
         type="button"
@@ -55,6 +60,9 @@ $filtrosCompartilhados = [
       <form class="ms-auto small d-flex flex-wrap align-items-center gap-0_5 column-gap-1 mb-0" method="get">
         <?php if ($categoriaSlug) : ?>
           <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoriaSlug) ?>">
+        <?php endif; ?>
+        <?php if ($buscaAtiva) : ?>
+          <input type="hidden" name="busca" value="<?= htmlspecialchars($busca) ?>">
         <?php endif; ?>
         <div class="ordenar-filtro-container d-flex flex-column align-items-sm-center flex-sm-row ms-auto gap-0_5 column-gap-1">
           <label for="ordenar" class="ps-1 fw-light">Ordenar por</label>
@@ -121,7 +129,9 @@ $filtrosCompartilhados = [
           <!-- If empty -->
           <?php if (empty($produtos)) : ?>
             <div class="produtos-vazio">
-              <p>Nenhum produto encontrado.</p>
+              <p>
+                Nenhum produto encontrado<?= $buscaAtiva ? ' para "' . htmlspecialchars($busca) . '"' : '' ?>.
+              </p>
               <?php if ($filtrosAtivos) : ?>
                 <a href="<?= $baseUrl ?>/produtos" class="btn btn-outline-primary py-2 px-4 rounded-5 fw-medium">Ver Todos os Produtos</a>
               <?php endif; ?>

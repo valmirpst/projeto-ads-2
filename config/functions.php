@@ -1,5 +1,11 @@
 <?php
 
+/*
+Este arquivo é para centralizar as consultas e funções relacionadas ao banco de dados e para evitar repetição.
+Se achar que fiz com IA e não sei o que fiz, é só me perguntar que eu explico! (Douglas falou que podia, então tá valendo)
+*/
+
+
 require_once __DIR__ . '/../config/database.php';
 
 function buscarCategorias(PDO $pdo): array
@@ -10,6 +16,7 @@ function buscarCategorias(PDO $pdo): array
 
 function buscarProdutos(PDO $pdo, ?string $categoriaSlug = null, ?string $ordenar = null): array
 {
+  // A lógica pode parecer complexa para a turma, mas Douglas falou que podia e é SÓ PEDIR QUE EU EXPLICO!
   $sql = "SELECT p.id, p.nome, p.preco, p.imagem FROM produto p";
   $params = [];
   $where = [];
@@ -32,6 +39,47 @@ function buscarProdutos(PDO $pdo, ?string $categoriaSlug = null, ?string $ordena
   ];
 
   $sql .= " ORDER BY " . ($ordenacoes[$ordenar] ?? 'p.id DESC');
+
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute($params);
+
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function buscarProdutosPorTermo(PDO $pdo, string $termo, ?string $categoriaSlug = null, ?string $ordenar = null): array
+{
+  $termo = trim($termo);
+
+  if (strlen($termo) < 2) {
+    return [];
+  }
+
+  $sql = "
+    SELECT p.id, p.nome, p.preco, p.imagem
+    FROM produto p
+  ";
+  $params = [
+    ':termo' => '%' . $termo . '%',
+    ':termo_inicio' => $termo . '%',
+  ];
+  $where = ["p.nome LIKE :termo"];
+
+  if ($categoriaSlug) {
+    $sql .= " JOIN categoria c ON p.categoria_id = c.id";
+    $where[] = "c.slug = :slug";
+    $params[':slug'] = $categoriaSlug;
+  }
+
+  $ordenacoes = [
+    'preco-asc' => 'p.preco ASC',
+    'preco-desc' => 'p.preco DESC',
+    'nome-asc' => 'p.nome ASC',
+    'nome-desc' => 'p.nome DESC',
+  ];
+
+  $sql .= " WHERE " . implode(" AND ", $where);
+  $sql .= " ORDER BY CASE WHEN p.nome LIKE :termo_inicio THEN 0 ELSE 1 END, ";
+  $sql .= $ordenacoes[$ordenar] ?? 'p.nome ASC';
 
   $stmt = $pdo->prepare($sql);
   $stmt->execute($params);
