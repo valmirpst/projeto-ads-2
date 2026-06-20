@@ -2,7 +2,7 @@
 
 /*
 Este arquivo é para centralizar as consultas e funções relacionadas ao banco de dados e para evitar repetição.
-Se achar que fiz com IA e não sei o que fiz, é só me perguntar que eu explico! (Douglas falou que podia, então tá valendo)
+Se achar que fiz com IA e não sei o que foi feito, é só me perguntar que eu explico! (Douglas disse: "se souber explicar tá valendo")
 */
 
 
@@ -95,18 +95,35 @@ function buscarProdutoPorId(PDO $pdo, int|null $id): array|null
   return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
 }
 
+// ---------------- 
+// Pra cumprir rúbrica de tech forge: busca tudo do banco e faz um filtro em memória com php mesmo
+// ----------------
 function buscarCaracteristicasDoProduto(PDO $pdo, int $produtoId): array
 {
   $sql = "
-    SELECT c.id, c.nome
+    SELECT c.id, c.nome, pc.produto_id
     FROM caracteristica c
     INNER JOIN produto_caracteristica pc ON pc.caracteristica_id = c.id
-    WHERE pc.produto_id = :produto_id
-    ORDER BY c.nome
   ";
 
   $stmt = $pdo->prepare($sql);
-  $stmt->execute([':produto_id' => $produtoId]);
+  $stmt->execute();
 
-  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $todas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  if (empty($todas)) {
+    return [];
+  }
+
+  $filtradas = [];
+  foreach ($todas as $caracteristica) {
+    if ($caracteristica['produto_id'] == $produtoId) {
+      $filtradas[] = [
+        'id'   => $caracteristica['id'],
+        'nome' => $caracteristica['nome'],
+      ];
+    }
+  }
+
+  return $filtradas;
 }
