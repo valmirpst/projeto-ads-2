@@ -35,6 +35,7 @@ $breadcrumbs = [
           src="<?= $baseUrl ?>/uploads/<?= $produto['imagem'] ?>"
           alt="<?= $produto['nome'] ?>"
           class="produto-imagem img-fluid rounded"
+          loading="lazy"
           onerror="this.onerror=null;this.src='<?= $baseUrl ?>/assets/images/fallback.jpg';">
       </div>
       <div class="col-12 col-md-6">
