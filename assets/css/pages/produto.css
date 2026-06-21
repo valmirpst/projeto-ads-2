@@ -15,3 +15,10 @@
   line-height: 1;
   padding: 0.375rem 0.75rem;
 }
+
+@media screen and (min-width: 768px) {
+  .produto-imagem {
+    max-height: 600px;
+    object-fit: cover;
+  }
+}

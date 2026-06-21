@@ -26,7 +26,7 @@ $categorias = buscarCategorias($pdo);
         <?php foreach ($categorias as $categoria) : ?>
           <a href="<?= $baseUrl ?>/produtos?categoria=<?= $categoria['slug'] ?>" class="small categoria-item p-0 text-center col-6">
             <img
-              src="<?= $baseUrl ?>/assets/images/<?= $categoria['imagem'] ?>"
+              src="<?= $baseUrl ?>/uploads/<?= $categoria['imagem'] ?>"
               alt="<?= $categoria['nome'] ?>"
               class="grid-item-imagem"
               onerror="this.onerror=null;this.src='<?= $baseUrl ?>/assets/images/fallback.jpg';">
