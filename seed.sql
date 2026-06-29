@@ -94,3 +94,7 @@ VALUES
     (14, 3),
     (15, 3),
     (15, 6);
+
+INSERT INTO usuario (usuario, senha)
+VALUES
+    ('admin', '$2y$10$XrJ8oSYnxpwyb2w6l5ReBumPE8TYiVGjZLNaoy06hzzS7lZGUGJF6');

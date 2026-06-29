@@ -33,6 +33,15 @@ CREATE TABLE produto_caracteristica(
     PRIMARY KEY(produto_id, caracteristica_id)
 );
 
+CREATE TABLE usuario (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(100) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+ALTER TABLE usuario ADD UNIQUE usuario_usuario_unique(usuario);
+
 ALTER TABLE produto_caracteristica
     ADD CONSTRAINT produto_caracteristica_caracteristica_id_foreign FOREIGN KEY(caracteristica_id)
     REFERENCES caracteristica(id);
