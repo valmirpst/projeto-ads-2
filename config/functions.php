@@ -8,10 +8,99 @@ Se achar que fiz com IA e não sei o que foi feito, é só me perguntar que eu e
 
 require_once __DIR__ . '/../config/database.php';
 
+function e(mixed $valor): string
+{
+  return htmlspecialchars((string) $valor, ENT_QUOTES, 'UTF-8');
+}
+
+function definirMensagem(string $tipo, string $texto): void
+{
+  $_SESSION['mensagem'] = [
+    'tipo' => $tipo,
+    'texto' => $texto,
+  ];
+}
+
+function obterMensagem(): ?array
+{
+  if (empty($_SESSION['mensagem'])) {
+    return null;
+  }
+
+  $mensagem = $_SESSION['mensagem'];
+  unset($_SESSION['mensagem']);
+
+  return $mensagem;
+}
+
+function gerarSlug(string $texto): string
+{
+  $texto = trim($texto);
+  $texto = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $texto) ?: $texto;
+  $texto = strtolower($texto);
+  $texto = preg_replace('/[^a-z0-9]+/', '-', $texto);
+  $texto = trim($texto ?? '', '-');
+
+  return $texto !== '' ? $texto : uniqid('item-');
+}
+
+function formatarPreco(float|string $preco): string
+{
+  return 'R$ ' . number_format((float) $preco, 2, ',', '.');
+}
+
+function removerImagemUpload(?string $imagem): void
+{
+  if (empty($imagem)) {
+    return;
+  }
+
+  $nomeArquivo = basename($imagem);
+  $caminho = __DIR__ . '/../uploads/' . $nomeArquivo;
+
+  if (is_file($caminho)) {
+    unlink($caminho);
+  }
+}
+
+function salvarImagemUpload(string $campo, ?string $imagemAtual = null, bool $removerAtual = false): ?string
+{
+  if (empty($_FILES[$campo]) || $_FILES[$campo]['error'] === UPLOAD_ERR_NO_FILE) {
+    return $imagemAtual;
+  }
+
+  if ($_FILES[$campo]['error'] !== UPLOAD_ERR_OK) {
+    throw new RuntimeException('Nao foi possivel enviar a imagem.');
+  }
+
+  $extensao = strtolower(pathinfo($_FILES[$campo]['name'], PATHINFO_EXTENSION));
+  $permitidas = ['jpg', 'jpeg', 'png', 'webp'];
+
+  if (!in_array($extensao, $permitidas, true)) {
+    throw new RuntimeException('A imagem deve ser jpg, jpeg, png ou webp.');
+  }
+
+  $nomeArquivo = uniqid('', true) . '.' . $extensao;
+  $destino = __DIR__ . '/../uploads/' . $nomeArquivo;
+
+  if (!move_uploaded_file($_FILES[$campo]['tmp_name'], $destino)) {
+    throw new RuntimeException('Nao foi possivel salvar a imagem.');
+  }
+
+  if ($removerAtual) {
+    removerImagemUpload($imagemAtual);
+  }
+
+  return $nomeArquivo;
+}
+
 function buscarCategorias(PDO $pdo): array
 {
   $sql = "SELECT id, nome, slug, imagem FROM categoria ORDER BY ordem, nome";
-  return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute();
+
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function buscarProdutos(PDO $pdo, ?string $categoriaSlug = null, ?string $ordenar = null): array

@@ -18,7 +18,7 @@ $baseUrl = $baseUrl ?? '';
       <h6>Explorar</h6>
       <a class="link-body-emphasis link-underline-opacity-50" href="<?= $baseUrl ?>/">Início</a>
       <a class="link-body-emphasis link-underline-opacity-50" href="<?= $baseUrl ?>/produtos">Produtos</a>
-      <span title="Área Administrativa (Em Desenvolvimento...)">Admin</span>
+      <a class="link-body-emphasis link-underline-opacity-50" href="<?= $baseUrl ?>/admin">Admin</a>
     </div>
   </div>
 
