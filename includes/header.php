@@ -18,6 +18,11 @@ $navLinks = [
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ManuMake</title>
 
+  <meta name="description" content="Descubra os melhores produtos da ManuMake. Encontre itens exclusivos e qualidade garantida.">
+  <meta name="keywords" content="ManuMake, produtos, loja, qualidade, exclusivos">
+  <meta name="author" content="ManuMake">
+  <meta name="robots" content="index, follow">
+
   <link rel="icon" type="image/x-icon" href="<?= $baseUrl ?>/favicon.ico">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
