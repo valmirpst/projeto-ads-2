@@ -43,7 +43,7 @@ $breadcrumbs = [
           <badge class="small text-muted">Cuidados para a Pele</badge>
           <h2 class="mb-0"><?= $produto['nome'] ?></h2>
           <div class="fs-5">
-            R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
+            <?= formatarPreco($produto['preco']) ?>
           </div>
           <?php if (!empty($caracteristicas)) : ?>
             <div class="produto-caracteristicas d-flex flex-column gap-2 mt-2">

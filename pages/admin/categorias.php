@@ -9,9 +9,7 @@ $categoriaEditando = null;
 $idEditando = isset($_GET['id']) && ctype_digit((string) $_GET['id']) ? (int) $_GET['id'] : null;
 
 if ($idEditando) {
-  $stmt = $pdo->prepare('SELECT id, nome, slug, ordem, imagem FROM categoria WHERE id = :id');
-  $stmt->execute([':id' => $idEditando]);
-  $categoriaEditando = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+  $categoriaEditando = buscarCategoriaAdminPorId($pdo, $idEditando);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -20,15 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   try {
     if ($acao === 'excluir') {
       $id = (int) ($_POST['id'] ?? 0);
-      $stmt = $pdo->prepare('SELECT imagem FROM categoria WHERE id = :id');
-      $stmt->execute([':id' => $id]);
-      $categoria = $stmt->fetch(PDO::FETCH_ASSOC);
+      $imagem = buscarImagemCategoria($pdo, $id);
+      excluirCategoria($pdo, $id);
 
-      $stmt = $pdo->prepare('DELETE FROM categoria WHERE id = :id');
-      $stmt->execute([':id' => $id]);
-
-      if ($categoria) {
-        removerImagemUpload($categoria['imagem']);
+      if ($imagem) {
+        removerImagemUpload($imagem);
       }
 
       definirMensagem('success', 'Categoria excluida com sucesso.');
@@ -49,32 +43,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $imagemAtual = null;
 
     if ($id) {
-      $stmt = $pdo->prepare('SELECT imagem FROM categoria WHERE id = :id');
-      $stmt->execute([':id' => $id]);
-      $categoriaAtual = $stmt->fetch(PDO::FETCH_ASSOC);
-      $imagemAtual = $categoriaAtual['imagem'] ?? null;
+      $imagemAtual = buscarImagemCategoria($pdo, $id);
     }
 
     $imagem = salvarImagemUpload('imagem', $imagemAtual, true);
+    salvarCategoria($pdo, $id, $nome, $slug, $ordem, $imagem);
 
     if ($id) {
-      $stmt = $pdo->prepare('UPDATE categoria SET nome = :nome, slug = :slug, ordem = :ordem, imagem = :imagem WHERE id = :id');
-      $stmt->execute([
-        ':nome' => $nome,
-        ':slug' => $slug,
-        ':ordem' => $ordem,
-        ':imagem' => $imagem,
-        ':id' => $id,
-      ]);
       definirMensagem('success', 'Categoria atualizada com sucesso.');
     } else {
-      $stmt = $pdo->prepare('INSERT INTO categoria (nome, slug, ordem, imagem) VALUES (:nome, :slug, :ordem, :imagem)');
-      $stmt->execute([
-        ':nome' => $nome,
-        ':slug' => $slug,
-        ':ordem' => $ordem,
-        ':imagem' => $imagem,
-      ]);
       definirMensagem('success', 'Categoria criada com sucesso.');
     }
 
@@ -85,9 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
-$stmt = $pdo->prepare('SELECT id, nome, slug, ordem, imagem FROM categoria ORDER BY ordem, nome');
-$stmt->execute();
-$categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$categorias = listarCategoriasAdmin($pdo);
 $mensagem = obterMensagem();
 ?>
 

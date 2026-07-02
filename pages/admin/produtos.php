@@ -9,9 +9,7 @@ $produtoEditando = null;
 $idEditando = isset($_GET['id']) && ctype_digit((string) $_GET['id']) ? (int) $_GET['id'] : null;
 
 if ($idEditando) {
-  $stmt = $pdo->prepare('SELECT id, nome, descricao, preco, imagem, categoria_id FROM produto WHERE id = :id');
-  $stmt->execute([':id' => $idEditando]);
-  $produtoEditando = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+  $produtoEditando = buscarProdutoAdminPorId($pdo, $idEditando);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -20,18 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   try {
     if ($acao === 'excluir') {
       $id = (int) ($_POST['id'] ?? 0);
-      $stmt = $pdo->prepare('SELECT imagem FROM produto WHERE id = :id');
-      $stmt->execute([':id' => $id]);
-      $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+      $imagem = buscarImagemProduto($pdo, $id);
+      excluirProduto($pdo, $id);
 
-      $stmt = $pdo->prepare('DELETE FROM produto_caracteristica WHERE produto_id = :id');
-      $stmt->execute([':id' => $id]);
-
-      $stmt = $pdo->prepare('DELETE FROM produto WHERE id = :id');
-      $stmt->execute([':id' => $id]);
-
-      if ($produto) {
-        removerImagemUpload($produto['imagem']);
+      if ($imagem) {
+        removerImagemUpload($imagem);
       }
 
       definirMensagem('success', 'Produto excluido com sucesso.');
@@ -52,34 +43,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $imagemAtual = null;
 
     if ($id) {
-      $stmt = $pdo->prepare('SELECT imagem FROM produto WHERE id = :id');
-      $stmt->execute([':id' => $id]);
-      $produtoAtual = $stmt->fetch(PDO::FETCH_ASSOC);
-      $imagemAtual = $produtoAtual['imagem'] ?? null;
+      $imagemAtual = buscarImagemProduto($pdo, $id);
     }
 
     $imagem = salvarImagemUpload('imagem', $imagemAtual, true);
+    salvarProduto($pdo, $id, $nome, $descricao, $preco, $categoriaId, $imagem);
 
     if ($id) {
-      $stmt = $pdo->prepare('UPDATE produto SET nome = :nome, descricao = :descricao, preco = :preco, categoria_id = :categoria_id, imagem = :imagem WHERE id = :id');
-      $stmt->execute([
-        ':nome' => $nome,
-        ':descricao' => $descricao,
-        ':preco' => $preco,
-        ':categoria_id' => $categoriaId,
-        ':imagem' => $imagem,
-        ':id' => $id,
-      ]);
       definirMensagem('success', 'Produto atualizado com sucesso.');
     } else {
-      $stmt = $pdo->prepare('INSERT INTO produto (nome, descricao, preco, categoria_id, imagem) VALUES (:nome, :descricao, :preco, :categoria_id, :imagem)');
-      $stmt->execute([
-        ':nome' => $nome,
-        ':descricao' => $descricao,
-        ':preco' => $preco,
-        ':categoria_id' => $categoriaId,
-        ':imagem' => $imagem,
-      ]);
       definirMensagem('success', 'Produto criado com sucesso.');
     }
 
@@ -90,18 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
-$stmt = $pdo->prepare('SELECT id, nome FROM categoria ORDER BY ordem, nome');
-$stmt->execute();
-$categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$stmt = $pdo->prepare('
-  SELECT p.id, p.nome, p.preco, p.imagem, c.nome AS categoria_nome
-  FROM produto p
-  INNER JOIN categoria c ON c.id = p.categoria_id
-  ORDER BY p.id DESC
-');
-$stmt->execute();
-$produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$categorias = buscarCategorias($pdo);
+$produtos = listarProdutosAdmin($pdo);
 $mensagem = obterMensagem();
 ?>
 

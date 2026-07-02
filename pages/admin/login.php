@@ -18,9 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $usuario = trim($_POST['usuario'] ?? '');
   $senha = $_POST['senha'] ?? '';
 
-  $stmt = $pdo->prepare('SELECT id, usuario, senha FROM usuario WHERE usuario = :usuario LIMIT 1');
-  $stmt->execute([':usuario' => $usuario]);
-  $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+  $admin = buscarUsuarioPorLogin($pdo, $usuario);
 
   if ($admin && password_verify($senha, $admin['senha'])) {
     session_regenerate_id(true);

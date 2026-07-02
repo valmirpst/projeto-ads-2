@@ -154,7 +154,7 @@ $filtrosCompartilhados = [
                 </a>
                 <!-- Preço do produto -->
                 <span>
-                  R$ <?= number_format($produto['preco'], 2, ',', '.') ?>
+                  <?= formatarPreco($produto['preco']) ?>
                 </span>
               </div>
             </div>
