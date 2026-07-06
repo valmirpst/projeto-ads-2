@@ -64,124 +64,113 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $categorias = listarCategoriasAdmin($pdo);
 $mensagem = obterMensagem();
+$adminTitulo = 'Categorias - Admin ManuMake';
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-br">
+<?php require_once __DIR__ . '/../../includes/admin_head.php'; ?>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Categorias - Admin ManuMake</title>
-  <link rel="icon" type="image/x-icon" href="<?= e($baseUrl) ?>/favicon.ico">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-</head>
-
-<body class="bg-light">
-  <main class="container py-4">
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
-      <div>
-        <a class="link-secondary text-decoration-none" href="<?= e($baseUrl) ?>/admin/dashboard">
-          <i class="bi bi-arrow-left"></i>
-          Painel
-        </a>
-        <h1 class="h3 mt-2 mb-0">Categorias</h1>
-      </div>
-      <a class="btn btn-outline-danger" href="<?= e($baseUrl) ?>/admin/logout">
-        <i class="bi bi-box-arrow-right"></i>
-        Sair
+<main class="container py-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+      <a class="link-secondary text-decoration-none" href="<?= e($baseUrl) ?>/admin/dashboard">
+        <i class="bi bi-arrow-left"></i>
+        Painel
       </a>
+      <h1 class="h3 mt-2 mb-0">Categorias</h1>
     </div>
+    <a class="btn btn-outline-danger" href="<?= e($baseUrl) ?>/admin/logout">
+      <i class="bi bi-box-arrow-right"></i>
+      Sair
+    </a>
+  </div>
 
-    <?php if ($mensagem): ?>
-      <div class="alert alert-<?= e($mensagem['tipo']) ?>" role="alert"><?= e($mensagem['texto']) ?></div>
-    <?php endif; ?>
-    <?php if ($mensagemErro): ?>
-      <div class="alert alert-danger" role="alert"><?= e($mensagemErro) ?></div>
-    <?php endif; ?>
+  <?php if ($mensagem): ?>
+    <div class="alert alert-<?= e($mensagem['tipo']) ?>" role="alert"><?= e($mensagem['texto']) ?></div>
+  <?php endif; ?>
+  <?php if ($mensagemErro): ?>
+    <div class="alert alert-danger" role="alert"><?= e($mensagemErro) ?></div>
+  <?php endif; ?>
 
-    <div class="row g-4">
-      <section class="col-lg-4">
-        <div class="card">
-          <div class="card-body">
-            <h2 class="h5 mb-3"><?= $categoriaEditando ? 'Editar categoria' : 'Nova categoria' ?></h2>
-            <form method="post" enctype="multipart/form-data" class="d-flex flex-column gap-3">
-              <input type="hidden" name="id" value="<?= e($categoriaEditando['id'] ?? '') ?>">
-              <div>
-                <label class="form-label" for="nome">Nome</label>
-                <input class="form-control" type="text" id="nome" name="nome" required value="<?= e($categoriaEditando['nome'] ?? '') ?>">
-              </div>
-              <div>
-                <label class="form-label" for="slug">Slug</label>
-                <input class="form-control" type="text" id="slug" name="slug" value="<?= e($categoriaEditando['slug'] ?? '') ?>">
-              </div>
-              <div>
-                <label class="form-label" for="ordem">Ordem</label>
-                <input class="form-control" type="number" id="ordem" name="ordem" min="0" value="<?= e($categoriaEditando['ordem'] ?? 0) ?>">
-              </div>
-              <div>
-                <label class="form-label" for="imagem">Imagem</label>
-                <input class="form-control" type="file" id="imagem" name="imagem" accept=".jpg,.jpeg,.png,.webp">
-                <?php if (!empty($categoriaEditando['imagem'])): ?>
-                  <div class="small text-muted mt-1">Atual: <?= e($categoriaEditando['imagem']) ?></div>
-                <?php endif; ?>
-              </div>
-              <div class="d-flex gap-2">
-                <button class="btn btn-primary" type="submit">
-                  <i class="bi bi-check-lg"></i>
-                  Salvar
-                </button>
-                <?php if ($categoriaEditando): ?>
-                  <a class="btn btn-outline-secondary" href="<?= e($baseUrl) ?>/admin/categorias">Cancelar</a>
-                <?php endif; ?>
-              </div>
-            </form>
-          </div>
+  <div class="row g-4">
+    <section class="col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="h5 mb-3"><?= $categoriaEditando ? 'Editar categoria' : 'Nova categoria' ?></h2>
+          <form method="post" enctype="multipart/form-data" class="d-flex flex-column gap-3">
+            <input type="hidden" name="id" value="<?= e($categoriaEditando['id'] ?? '') ?>">
+            <div>
+              <label class="form-label" for="nome">Nome</label>
+              <input class="form-control" type="text" id="nome" name="nome" required value="<?= e($categoriaEditando['nome'] ?? '') ?>">
+            </div>
+            <div>
+              <label class="form-label" for="slug">Slug</label>
+              <input class="form-control" type="text" id="slug" name="slug" value="<?= e($categoriaEditando['slug'] ?? '') ?>">
+            </div>
+            <div>
+              <label class="form-label" for="ordem">Ordem</label>
+              <input class="form-control" type="number" id="ordem" name="ordem" min="0" value="<?= e($categoriaEditando['ordem'] ?? 0) ?>">
+            </div>
+            <div>
+              <label class="form-label" for="imagem">Imagem</label>
+              <input class="form-control" type="file" id="imagem" name="imagem" accept=".jpg,.jpeg,.png,.webp">
+              <?php if (!empty($categoriaEditando['imagem'])): ?>
+                <div class="small text-muted mt-1">Atual: <?= e($categoriaEditando['imagem']) ?></div>
+              <?php endif; ?>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary" type="submit">
+                <i class="bi bi-check-lg"></i>
+                Salvar
+              </button>
+              <?php if ($categoriaEditando): ?>
+                <a class="btn btn-outline-secondary" href="<?= e($baseUrl) ?>/admin/categorias">Cancelar</a>
+              <?php endif; ?>
+            </div>
+          </form>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="col-lg-8">
-        <div class="card">
-          <div class="table-responsive">
-            <table class="table align-middle mb-0">
-              <thead>
+    <section class="col-lg-8">
+      <div class="card">
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Slug</th>
+                <th>Ordem</th>
+                <th class="text-end">Acoes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($categorias as $categoria): ?>
                 <tr>
-                  <th>Nome</th>
-                  <th>Slug</th>
-                  <th>Ordem</th>
-                  <th class="text-end">Acoes</th>
+                  <td><?= e($categoria['nome']) ?></td>
+                  <td><?= e($categoria['slug']) ?></td>
+                  <td><?= e($categoria['ordem']) ?></td>
+                  <td class="text-end">
+                    <a class="btn btn-sm btn-outline-secondary" href="<?= e($baseUrl) ?>/admin/categorias?id=<?= e($categoria['id']) ?>">
+                      <i class="bi bi-pencil"></i>
+                      Editar
+                    </a>
+                    <form method="post" class="d-inline" onsubmit="return confirm('Excluir esta categoria?');">
+                      <input type="hidden" name="acao" value="excluir">
+                      <input type="hidden" name="id" value="<?= e($categoria['id']) ?>">
+                      <button class="btn btn-sm btn-outline-danger" type="submit">
+                        <i class="bi bi-trash"></i>
+                        Excluir
+                      </button>
+                    </form>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                <?php foreach ($categorias as $categoria): ?>
-                  <tr>
-                    <td><?= e($categoria['nome']) ?></td>
-                    <td><?= e($categoria['slug']) ?></td>
-                    <td><?= e($categoria['ordem']) ?></td>
-                    <td class="text-end">
-                      <a class="btn btn-sm btn-outline-primary" href="<?= e($baseUrl) ?>/admin/categorias?id=<?= e($categoria['id']) ?>">
-                        <i class="bi bi-pencil"></i>
-                        Editar
-                      </a>
-                      <form method="post" class="d-inline" onsubmit="return confirm('Excluir esta categoria?');">
-                        <input type="hidden" name="acao" value="excluir">
-                        <input type="hidden" name="id" value="<?= e($categoria['id']) ?>">
-                        <button class="btn btn-sm btn-outline-danger" type="submit">
-                          <i class="bi bi-trash"></i>
-                          Excluir
-                        </button>
-                      </form>
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
-              </tbody>
-            </table>
-          </div>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
         </div>
-      </section>
-    </div>
-  </main>
-</body>
+      </div>
+    </section>
+  </div>
+</main>
 
-</html>
+<?php require_once __DIR__ . '/../../includes/admin_footer.php'; ?>
