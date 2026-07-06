@@ -166,7 +166,7 @@ $adminTitulo = 'Produtos - Admin ManuMake';
                   <td><?= e(formatarPreco($produto['preco'])) ?></td>
                   <td><?= e($produto['categoria_nome']) ?></td>
                   <td class="text-end">
-                    <a class="btn btn-sm btn-outline-primary" href="<?= e($baseUrl) ?>/admin/produtos?id=<?= e($produto['id']) ?>">
+                    <a class="btn btn-sm btn-outline-secondary" href="<?= e($baseUrl) ?>/admin/produtos?id=<?= e($produto['id']) ?>">
                       <i class="bi bi-pencil"></i>
                       Editar
                     </a>
