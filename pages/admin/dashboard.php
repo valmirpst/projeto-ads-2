@@ -13,7 +13,7 @@ $adminTitulo = 'Painel Administrativo - ManuMake';
       <h1 class="h2 fw-bold text-dark mb-1">Painel Administrativo</h1>
       <p class="text-muted mb-0">Gerencie produtos, categorias e acesse o site principal.</p>
     </div>
-    <div class="d-flex justify-content-end gap-2 w-100 w-md-auto">
+    <div class="d-flex justify-content-between gap-2 w-100 w-md-auto">
       <a class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center gap-2 flex-grow-1 flex-md-grow-0 py-2 px-3" href="<?= e($baseUrl) ?>/">
         <i class="bi bi-globe"></i>
         <span>Voltar ao Site</span>

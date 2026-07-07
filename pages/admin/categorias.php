@@ -32,14 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $id = !empty($_POST['id']) ? (int) $_POST['id'] : null;
     $nome = trim($_POST['nome'] ?? '');
-    $slug = trim($_POST['slug'] ?? '');
     $ordem = (int) ($_POST['ordem'] ?? 0);
 
     if ($nome === '') {
       throw new RuntimeException('Informe o nome da categoria.');
     }
 
-    $slug = $slug !== '' ? gerarSlug($slug) : gerarSlug($nome);
+    $slug = gerarSlug($nome);
     $imagemAtual = null;
 
     if ($id) {
@@ -97,10 +96,6 @@ $adminTitulo = 'Categorias - Admin ManuMake';
               <input class="form-control" type="text" id="nome" name="nome" required value="<?= e($categoriaEditando['nome'] ?? '') ?>">
             </div>
             <div>
-              <label class="form-label text-secondary small fw-bold" for="slug">Slug</label>
-              <input class="form-control" type="text" id="slug" name="slug" value="<?= e($categoriaEditando['slug'] ?? '') ?>">
-            </div>
-            <div>
               <label class="form-label text-secondary small fw-bold" for="ordem">Ordem</label>
               <input class="form-control" type="number" id="ordem" name="ordem" min="0" value="<?= e($categoriaEditando['ordem'] ?? 0) ?>">
             </div>
@@ -136,7 +131,6 @@ $adminTitulo = 'Categorias - Admin ManuMake';
               <thead class="table-light">
                 <tr>
                   <th class="small px-3 py-3 border-0">Categoria</th>
-                  <th class="small py-3 border-0">Slug</th>
                   <th class="small py-3 border-0 text-center">Ordem</th>
                   <th class="small px-3 py-3 border-0 text-end">Ações</th>
                 </tr>
@@ -158,7 +152,6 @@ $adminTitulo = 'Categorias - Admin ManuMake';
                         <span><?= e($categoria['nome']) ?></span>
                       </div>
                     </td>
-                    <td class="text-muted"><?= e($categoria['slug']) ?></td>
                     <td class="text-center">
                       <span class="badge bg-light text-dark border"><?= e($categoria['ordem']) ?></span>
                     </td>
@@ -180,7 +173,7 @@ $adminTitulo = 'Categorias - Admin ManuMake';
                 <?php endforeach; ?>
                 <?php if (empty($categorias)): ?>
                   <tr>
-                    <td colspan="4" class="text-center py-5 text-muted">Nenhuma categoria cadastrada.</td>
+                    <td colspan="3" class="text-center py-5 text-muted">Nenhuma categoria cadastrada.</td>
                   </tr>
                 <?php endif; ?>
               </tbody>
