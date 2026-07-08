@@ -73,28 +73,13 @@ function buscarCaracteristicasDoProduto(PDO $pdo, int $produtoId): array
     SELECT c.id, c.nome, pc.produto_id
     FROM caracteristica c
     INNER JOIN produto_caracteristica pc ON pc.caracteristica_id = c.id
+    WHERE pc.produto_id = :produto_id
   ";
 
   $stmt = $pdo->prepare($sql);
-  $stmt->execute();
+  $stmt->execute([':produto_id' => $produtoId]);
 
-  $todas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-  if (empty($todas)) {
-    return [];
-  }
-
-  $filtradas = [];
-  foreach ($todas as $caracteristica) {
-    if ($caracteristica['produto_id'] == $produtoId) {
-      $filtradas[] = [
-        'id' => $caracteristica['id'],
-        'nome' => $caracteristica['nome'],
-      ];
-    }
-  }
-
-  return $filtradas;
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function listarProdutosAdmin(PDO $pdo): array
