@@ -19,9 +19,14 @@ $navLinks = [
   <title>ManuMake</title>
 
   <meta name="description" content="Descubra os melhores produtos da ManuMake. Encontre itens exclusivos e qualidade garantida.">
-  <meta name="keywords" content="ManuMake, produtos, loja, qualidade, exclusivos">
   <meta name="author" content="ManuMake">
   <meta name="robots" content="index, follow">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ManuMake">
+  <meta property="og:description" content="Descubra os melhores produtos da ManuMake. Encontre itens exclusivos e qualidade garantida.">
+  <meta property="og:image" content="<?= $baseUrl ?>/assets/images/ManuMakeLogoSemFundo.png">
+  <meta property="og:locale" content="pt_BR">
 
   <link rel="icon" type="image/x-icon" href="<?= $baseUrl ?>/favicon.ico">
 
