@@ -5,7 +5,7 @@ require_once __DIR__ . '/../../config/functions.php';
 $adminTitulo = 'Painel Administrativo - ManuMake';
 ?>
 
-<?php require_once __DIR__ . '/../../includes/admin_head.php'; ?>
+<?php require_once __DIR__ . '/../../includes/admin_header.php'; ?>
 
 <main class="container py-5">
   <div class="d-flex flex-column justify-content-between align-items-start align-items-md-center gap-3 mb-5 border-bottom pb-4">

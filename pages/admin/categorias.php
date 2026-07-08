@@ -66,7 +66,7 @@ $mensagem = obterMensagem();
 $adminTitulo = 'Categorias - Admin ManuMake';
 ?>
 
-<?php require_once __DIR__ . '/../../includes/admin_head.php'; ?>
+<?php require_once __DIR__ . '/../../includes/admin_header.php'; ?>
 
 <main class="container py-4">
   <div class="mb-3 border-bottom pb-4">

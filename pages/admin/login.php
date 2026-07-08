@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<?php require_once __DIR__ . '/../../includes/admin_head.php'; ?>
+<?php require_once __DIR__ . '/../../includes/admin_header.php'; ?>
 
 <main class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
   <div class="card shadow-sm" style="max-width: 420px; width: 100%;">
