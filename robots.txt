@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /config/
+Disallow: /includes/
+Disallow: /pages/
+
+# Allow indexing of public site pages and media
+Allow: /
+Allow: /assets/
+Allow: /uploads/
