@@ -145,6 +145,7 @@ $filtrosCompartilhados = [
                   src="<?= $baseUrl ?>/uploads/<?= $produto['imagem'] ?>"
                   alt="<?= $produto['nome'] ?>"
                   class="grid-item-imagem"
+                  loading="lazy"
                   onerror="this.onerror=null;this.src='<?= $baseUrl ?>/assets/images/fallback.jpg';">
               </a>
               <div class="d-flex flex-column">

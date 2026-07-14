@@ -164,6 +164,7 @@ $adminTitulo = 'Produtos - Admin ManuMake';
                               src=" <?= e($baseUrl) ?>/uploads/<?= e($produto['imagem']) ?>"
                               alt="<?= e($produto['nome']) ?>"
                               class="w-100 h-100 rounded object-fit-cover shadow-sm border"
+                              loading="lazy"
                               onerror="this.onerror=null;this.src='<?= e($baseUrl) ?>/assets/images/fallback.jpg';">
                           </div>
                         <?php endif; ?>

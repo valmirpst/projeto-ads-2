@@ -29,6 +29,7 @@ $categorias = buscarCategorias($pdo);
               src="<?= $baseUrl ?>/uploads/<?= $categoria['imagem'] ?>"
               alt="<?= $categoria['nome'] ?>"
               class="grid-item-imagem"
+              loading="lazy"
               onerror="this.onerror=null;this.src='<?= $baseUrl ?>/assets/images/fallback.jpg';">
             <h6 class="w-100"><?= $categoria['nome'] ?></h6>
           </a>
