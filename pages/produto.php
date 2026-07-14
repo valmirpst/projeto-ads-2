@@ -83,3 +83,22 @@ $breadcrumbs = [
     </div>
   </section>
 </main>
+
+<!-- Dados Estruturados para SEO e AEO -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": <?= json_encode($produto['nome']) ?>,
+    "image": <?= json_encode($seoImage ?? ($protocolo . '://' . $host . $baseUrl . '/uploads/' . $produto['imagem'])) ?>,
+    "description": <?= json_encode(strip_tags($produto['descricao'])) ?>,
+    "offers": {
+      "@type": "Offer",
+      "url": <?= json_encode($urlProduto) ?>,
+      "priceCurrency": "BRL",
+      "price": <?= json_encode((float) $produto['preco']) ?>,
+      "availability": "https://schema.org/InStock",
+      "priceValidUntil": <?= json_encode(date('Y-12-31', strtotime('+1 year'))) ?>
+    }
+  }
+</script>
