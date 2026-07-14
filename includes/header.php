@@ -16,16 +16,17 @@ $navLinks = [
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ManuMake</title>
+  <title><?= htmlspecialchars($seoTitle ?? 'ManuMake') ?></title>
 
-  <meta name="description" content="Descubra os melhores produtos da ManuMake. Encontre itens exclusivos e qualidade garantida.">
+  <meta name="description" content="<?= htmlspecialchars($seoDescription ?? 'Descubra os melhores produtos da ManuMake. Encontre itens exclusivos e qualidade garantida.') ?>">
   <meta name="author" content="ManuMake">
   <meta name="robots" content="index, follow">
 
   <meta property="og:type" content="website">
-  <meta property="og:title" content="ManuMake">
-  <meta property="og:description" content="Descubra os melhores produtos da ManuMake. Encontre itens exclusivos e qualidade garantida.">
-  <meta property="og:image" content="<?= $baseUrl ?>/assets/images/ManuMakeLogoSemFundo.png">
+  <meta property="og:title" content="<?= htmlspecialchars($seoTitle ?? 'ManuMake') ?>">
+  <meta property="og:description" content="<?= htmlspecialchars($seoDescription ?? 'Descubra os melhores produtos da ManuMake. Encontre itens exclusivos e qualidade garantida.') ?>">
+  <meta property="og:image" content="<?= htmlspecialchars($seoImage ?? ($baseUrl . '/assets/images/ManuMakeLogoSemFundo.png')) ?>">
+  <meta property="og:url" content="<?= htmlspecialchars($seoUrl ?? '') ?>">
   <meta property="og:locale" content="pt_BR">
 
   <link rel="icon" type="image/x-icon" href="<?= $baseUrl ?>/favicon.ico">
