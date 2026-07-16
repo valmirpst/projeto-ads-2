@@ -11,16 +11,27 @@
 .header-busca .form-control {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
   font-size: 0.875rem;
+  padding-left: 1.25rem;
+  border-color: var(--bs-primary-lighter);
+}
+
+.header-busca .form-control:focus {
+  box-shadow: none;
+  border-color: var(--bs-primary);
 }
 
 .header-busca .btn {
   align-items: center;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
   display: inline-flex;
   justify-content: center;
-  width: 44px;
+  width: 48px;
 }
 
 .header-busca-mobile {

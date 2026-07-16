@@ -126,7 +126,8 @@ $navLinks = [
         <?php endforeach; ?>
 
       </ul>
-      <form class="header-busca header-busca-mobile px-4 pb-4" method="get" action="<?= $baseUrl ?>/produtos">
+
+      <form class="header-busca header-busca-mobile px-4 pb-3" method="get" action="<?= $baseUrl ?>/produtos">
         <label for="busca-header-mobile" class="visually-hidden">Buscar produtos</label>
         <input
           type="search"
