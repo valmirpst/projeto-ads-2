@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/functions.php';
 
@@ -18,7 +19,7 @@ $protocolo = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https
 $host = $_SERVER['HTTP_HOST'];
 
 $urlProduto = $protocolo . '://' . $host . $baseUrl . '/produtos/' . $produto['id'];
-$numeroTelefone = '554488370773';
+$numeroTelefone = WHATSAPP_NUMERO;
 $mensagemWhatsapp = rawurlencode(
   "Olá, tenho interesse no produto: *{$produto['nome']}* ({$urlProduto})"
 );
