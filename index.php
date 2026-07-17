@@ -89,11 +89,12 @@ $stylesheet = $pagina . '.css';
   require_once 'includes/header.php';
 
   $rotas = [
-    'home' => 'pages/home.php',
-    'produtos' => 'pages/produtos.php',
-    'produto' => 'pages/produto.php',
-    'sobre' => 'pages/sobre.php',
-    'termos' => 'pages/termos.php',
+    'home'      => 'pages/home.php',
+    'produtos'  => 'pages/produtos.php',
+    'produto'   => 'pages/produto.php',
+    'sobre'     => 'pages/sobre.php',
+    'termos'    => 'pages/termos.php',
+    'carrinho'  => 'pages/carrinho.php',
   ];
 
   if ($pagina === 'produto' && $produtoId === null) {
