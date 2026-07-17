@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config/functions.php';
+// Esta página é carregada pelo index.php (front controller).
+defined('APP_ROOT') || die('Acesso direto não permitido.');
 
 $baseUrl = $baseUrl ?? '';
 
@@ -8,14 +8,6 @@ $breadcrumbs = [
   ['name' => 'Início', 'href' => $baseUrl . '/'],
   ['name' => 'Produtos', 'href' => $baseUrl . '/produtos'],
 ];
-
-function montarUrlProdutos(string $baseUrl, array $params = []): string
-{
-  $params = array_filter($params, fn($valor) => $valor !== null && $valor !== '');
-  $query = http_build_query($params);
-
-  return $baseUrl . '/produtos' . ($query ? '?' . $query : '');
-}
 
 $categoriaSlug = $_GET['categoria'] ?? null;
 $ordenar = $_GET['ordenar'] ?? '';

@@ -1,6 +1,8 @@
 <?php
+// Esta página é carregada pelo index.php (front controller).
+defined('APP_ROOT') || die('Acesso direto não permitido.');
+
 require_once __DIR__ . '/../../includes/admin_auth.php';
-require_once __DIR__ . '/../../config/functions.php';
 
 $adminTitulo = 'Painel Administrativo - ManuMake';
 ?>

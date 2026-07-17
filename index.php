@@ -3,8 +3,11 @@ if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 
+define('APP_ROOT', __DIR__);
+
 require_once 'config/database.php';
 require_once 'config/functions.php';
+require_once 'config/seo.php';
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
@@ -35,39 +38,12 @@ if (!empty($segments)) {
   }
 }
 
-// Configurações de SEO padrão (Fallback)
-$protocolo = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-$host = $_SERVER['HTTP_HOST'];
-$seoUrl = $protocolo . '://' . $host . $_SERVER['REQUEST_URI'];
-
-$seoTitle = "ManuMake";
-$seoDescription = "Descubra os melhores produtos da ManuMake. Encontre itens exclusivos e qualidade garantida.";
-$seoImage = $baseUrl . '/assets/images/ManuMakeLogoSemFundo.png';
-
-if ($pagina === 'produto' && $produtoId !== null) {
-  $produtoSeo = buscarProdutoPorId($pdo, $produtoId);
-  if ($produtoSeo) {
-    $seoTitle = $produtoSeo['nome'] . " - ManuMake";
-    $seoDescription = mb_strimwidth(strip_tags($produtoSeo['descricao']), 0, 160, "...");
-    if (!empty($produtoSeo['imagem'])) {
-      $seoImage = $baseUrl . '/uploads/' . $produtoSeo['imagem'];
-    }
-  }
-} elseif ($pagina === 'produtos') {
-  $seoTitle = "Produtos - ManuMake";
-  $seoDescription = "Navegue pelo nosso catálogo completo de maquiagens, cosméticos e cuidados pessoais.";
-} elseif ($pagina === 'sobre') {
-  $seoTitle = "Sobre Nós - ManuMake";
-  $seoDescription = "Conheça a história da ManuMake e nossa missão de realçar a sua beleza natural.";
-} elseif ($pagina === 'termos') {
-  $seoTitle = "Termos de Uso - ManuMake";
-  $seoDescription = "Termos e condições de uso do site e políticas da ManuMake.";
-}
-
-// Garante que a imagem do OpenGraph tenha um caminho absoluto
-if (!preg_match('~^(?:f|ht)tps?://~i', $seoImage)) {
-  $seoImage = $protocolo . '://' . $host . $seoImage;
-}
+// Resolve metadados de SEO / Open Graph para a página atual
+$seo = resolverSeo($pdo, $pagina, $produtoId, $baseUrl);
+$seoTitle       = $seo['title'];
+$seoDescription = $seo['description'];
+$seoImage       = $seo['image'];
+$seoUrl         = $seo['url'];
 
 if ($adminPagina !== null) {
   $rotasAdmin = [
