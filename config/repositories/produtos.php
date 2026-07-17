@@ -1,6 +1,6 @@
 <?php
 
-function buscarProdutos(PDO $pdo, ?string $categoriaSlug = null, ?string $ordenar = null): array
+function buscarProdutos(PDO $pdo, ?string $categoriaSlug = null, ?string $ordenar = null, int $limite = 0, int $offset = 0): array
 {
   $sql = "SELECT p.id, p.nome, p.preco, p.imagem FROM produto p";
   $params = [];
@@ -18,13 +18,52 @@ function buscarProdutos(PDO $pdo, ?string $categoriaSlug = null, ?string $ordena
 
   $sql .= " ORDER BY " . obterOrdenacaoProdutos($ordenar, 'p.id DESC');
 
+  if ($limite > 0) {
+    $sql .= " LIMIT :limite OFFSET :offset";
+    $params[':limite'] = $limite;
+    $params[':offset'] = $offset;
+  }
+
   $stmt = $pdo->prepare($sql);
-  $stmt->execute($params);
+
+  if ($limite > 0) {
+    $stmt->bindValue(':limite', $params[':limite'], PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $params[':offset'], PDO::PARAM_INT);
+    $filtros = array_filter($params, fn($k) => !in_array($k, [':limite', ':offset']), ARRAY_FILTER_USE_KEY);
+    foreach ($filtros as $k => $v) {
+      $stmt->bindValue($k, $v);
+    }
+    $stmt->execute();
+  } else {
+    $stmt->execute($params);
+  }
 
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function buscarProdutosPorTermo(PDO $pdo, string $termo, ?string $categoriaSlug = null, ?string $ordenar = null): array
+function contarProdutos(PDO $pdo, ?string $categoriaSlug = null): int
+{
+  $sql = "SELECT COUNT(*) FROM produto p";
+  $params = [];
+  $where = [];
+
+  if ($categoriaSlug) {
+    $sql .= " JOIN categoria c ON p.categoria_id = c.id";
+    $where[] = "c.slug = :slug";
+    $params[':slug'] = $categoriaSlug;
+  }
+
+  if (!empty($where)) {
+    $sql .= " WHERE " . implode(" AND ", $where);
+  }
+
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute($params);
+
+  return (int) $stmt->fetchColumn();
+}
+
+function buscarProdutosPorTermo(PDO $pdo, string $termo, ?string $categoriaSlug = null, ?string $ordenar = null, int $limite = 0, int $offset = 0): array
 {
   $termo = trim($termo);
 
@@ -52,10 +91,50 @@ function buscarProdutosPorTermo(PDO $pdo, string $termo, ?string $categoriaSlug 
   $sql .= " ORDER BY CASE WHEN p.nome LIKE :termo_inicio THEN 0 ELSE 1 END, ";
   $sql .= obterOrdenacaoProdutos($ordenar, 'p.nome ASC');
 
+  if ($limite > 0) {
+    $sql .= " LIMIT :limite OFFSET :offset";
+  }
+
+  $stmt = $pdo->prepare($sql);
+
+  if ($limite > 0) {
+    $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    foreach ($params as $k => $v) {
+      $stmt->bindValue($k, $v);
+    }
+    $stmt->execute();
+  } else {
+    $stmt->execute($params);
+  }
+
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function contarProdutosPorTermo(PDO $pdo, string $termo, ?string $categoriaSlug = null): int
+{
+  $termo = trim($termo);
+
+  if (strlen($termo) < 2) {
+    return 0;
+  }
+
+  $sql = "SELECT COUNT(*) FROM produto p";
+  $params = [':termo' => '%' . $termo . '%'];
+  $where = ["p.nome LIKE :termo"];
+
+  if ($categoriaSlug) {
+    $sql .= " JOIN categoria c ON p.categoria_id = c.id";
+    $where[] = "c.slug = :slug";
+    $params[':slug'] = $categoriaSlug;
+  }
+
+  $sql .= " WHERE " . implode(" AND ", $where);
+
   $stmt = $pdo->prepare($sql);
   $stmt->execute($params);
 
-  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  return (int) $stmt->fetchColumn();
 }
 
 function buscarProdutoPorId(PDO $pdo, int|null $id): array|null
