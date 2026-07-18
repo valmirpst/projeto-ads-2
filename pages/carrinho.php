@@ -36,7 +36,7 @@ require_once APP_ROOT . '/includes/breadcrumb.php';
     <div class="text-center py-5">
       <i class="bi bi-cart-x fs-1 text-muted d-block mb-3"></i>
       <p class="text-muted mb-4">Seu carrinho está vazio.</p>
-      <a href="<?= e($baseUrl) ?>/produtos" class="btn btn-primary">
+      <a href="<?= e($baseUrl) ?>/produtos" class="btn btn-primary rounded-5 px-5 fw-medium">
         <i class="bi bi-bag me-1"></i> Ver Produtos
       </a>
     </div>
@@ -63,9 +63,10 @@ require_once APP_ROOT . '/includes/breadcrumb.php';
               <td style="width: 80px;">
                 <?php if (!empty($item['imagem'])): ?>
                   <img
-                    src="<?= e($baseUrl) ?>/assets/images/<?= e($item['imagem']) ?>"
+                    src="<?= e($baseUrl) ?>/uploads/<?= e($item['imagem']) ?>"
                     alt="<?= e($item['nome']) ?>"
-                    class="carrinho-img">
+                    class="carrinho-img"
+                    onerror="this.onerror=null;this.src='<?= e($baseUrl) ?>/assets/images/fallback.jpg';">
                 <?php else: ?>
                   <div class="carrinho-img bg-light d-flex align-items-center justify-content-center rounded">
                     <i class="bi bi-image text-muted fs-4"></i>
@@ -92,9 +93,9 @@ require_once APP_ROOT . '/includes/breadcrumb.php';
                     value="<?= e($item['quantidade']) ?>"
                     min="1"
                     max="999"
-                    class="form-control form-control-sm carrinho-qty-input text-center"
+                    class="form-control form-control-sm carrinho-qty-input text-center rounded-3"
                     aria-label="Quantidade de <?= e($item['nome']) ?>">
-                  <button type="submit" class="btn btn-outline-secondary btn-sm" title="Atualizar quantidade">
+                  <button type="submit" class="btn btn-outline-primary btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 28px; height: 28px;" title="Atualizar quantidade">
                     <i class="bi bi-arrow-clockwise"></i>
                   </button>
                 </form>
@@ -110,7 +111,7 @@ require_once APP_ROOT . '/includes/breadcrumb.php';
                 <form method="post" action="<?= e($baseUrl) ?>/carrinho">
                   <input type="hidden" name="acao" value="remover">
                   <input type="hidden" name="produto_id" value="<?= e($item['id']) ?>">
-                  <button type="submit" class="btn btn-outline-danger btn-sm" title="Remover item">
+                  <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 28px; height: 28px;" title="Remover item">
                     <i class="bi bi-trash3"></i>
                   </button>
                 </form>
@@ -124,7 +125,7 @@ require_once APP_ROOT . '/includes/breadcrumb.php';
         <tfoot>
           <tr class="carrinho-total-row">
             <td colspan="4" class="text-end text-muted">Total:</td>
-            <td class="text-end fw-bold fs-5"><?= e(formatarPreco($total)) ?></td>
+            <td class="text-end fw-bold fs-5 text-primary"><?= e(formatarPreco($total)) ?></td>
             <td></td>
           </tr>
         </tfoot>
@@ -132,16 +133,16 @@ require_once APP_ROOT . '/includes/breadcrumb.php';
     </div>
 
     <!-- Ações do rodapé -->
-    <div class="d-flex flex-wrap justify-content-between carrinho-actions mt-2">
+    <div class="d-flex flex-wrap justify-content-between carrinho-actions mt-4">
 
       <form method="post" action="<?= e($baseUrl) ?>/carrinho">
         <input type="hidden" name="acao" value="limpar">
-        <button type="submit" class="btn btn-outline-danger">
+        <button type="submit" class="btn btn-outline-danger rounded-5 px-4 fw-medium">
           <i class="bi bi-trash3 me-1"></i> Limpar Carrinho
         </button>
       </form>
 
-      <a href="<?= e($baseUrl) ?>/produtos" class="btn btn-outline-secondary">
+      <a href="<?= e($baseUrl) ?>/produtos" class="btn btn-outline-primary rounded-5 px-4 fw-medium">
         <i class="bi bi-arrow-left me-1"></i> Continuar Comprando
       </a>
 

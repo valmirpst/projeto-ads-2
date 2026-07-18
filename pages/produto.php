@@ -75,7 +75,7 @@ $mensagem = obterMensagem();
             </div>
           <?php endif; ?>
           <!-- Formulário: adicionar ao carrinho -->
-          <form method="post" action="<?= e($baseUrl) ?>/carrinho" class="d-flex align-items-center gap-2 mt-3">
+          <form method="post" action="<?= e($baseUrl) ?>/carrinho" class="d-flex align-items-center gap-2 mt-4 mb-1">
             <input type="hidden" name="acao" value="adicionar">
             <input type="hidden" name="produto_id" value="<?= e($produto['id']) ?>">
             <input type="hidden" name="redirect" value="<?= e($baseUrl) ?>/produtos/<?= e($produto['id']) ?>">
@@ -87,9 +87,9 @@ $mensagem = obterMensagem();
               value="1"
               min="1"
               max="999"
-              class="form-control form-control" style="width: 80px;"
+              class="form-control rounded-3" style="width: 80px;"
               aria-label="Quantidade">
-            <button type="submit" class="btn btn-primary flex-grow-1">
+            <button type="submit" class="btn btn-outline-primary flex-grow-1 rounded-5 fw-medium">
               <i class="bi bi-cart-plus me-1"></i> Adicionar ao Carrinho
             </button>
           </form>
