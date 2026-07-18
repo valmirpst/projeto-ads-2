@@ -96,29 +96,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $stylesheet = $pagina . '.css';
 ?>
 
-<div class="d-flex flex-column min-vh-100">
+<?php require_once 'includes/header.php'; ?>
 
-  <?php
-  require_once 'includes/header.php';
+<?php
+$rotas = [
+  'home'      => 'pages/home.php',
+  'produtos'  => 'pages/produtos.php',
+  'produto'   => 'pages/produto.php',
+  'sobre'     => 'pages/sobre.php',
+  'termos'    => 'pages/termos.php',
+  'carrinho'  => 'pages/carrinho.php',
+];
 
-  $rotas = [
-    'home'      => 'pages/home.php',
-    'produtos'  => 'pages/produtos.php',
-    'produto'   => 'pages/produto.php',
-    'sobre'     => 'pages/sobre.php',
-    'termos'    => 'pages/termos.php',
-    'carrinho'  => 'pages/carrinho.php',
-  ];
+if ($pagina === 'produto' && $produtoId === null) {
+  require_once 'pages/404.php';
+} elseif (array_key_exists($pagina, $rotas)) {
+  require_once $rotas[$pagina];
+} else {
+  require_once 'pages/404.php';
+}
 
-  if ($pagina === 'produto' && $produtoId === null) {
-    require_once 'pages/404.php';
-  } elseif (array_key_exists($pagina, $rotas)) {
-    require_once $rotas[$pagina];
-  } else {
-    require_once 'pages/404.php';
-  }
-
-  require_once 'includes/footer.php';
-  ?>
-
-</div>
+require_once 'includes/footer.php';
+?>
