@@ -1,0 +1,22 @@
+/* Imagem do produto na tabela do carrinho */
+.carrinho-img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 0.375rem;
+}
+
+/* Célula de quantidade mais compacta */
+.carrinho-qty-input {
+  width: 70px;
+}
+
+/* Linha de total */
+.carrinho-total-row td {
+  border-top: 2px solid var(--bs-border-color);
+}
+
+/* Bloco de ações do rodapé */
+.carrinho-actions {
+  gap: 0.5rem;
+}

@@ -25,14 +25,14 @@ VALUES
     (12, 'Bolsa de Ombro Feminina', 'Bolsa de ombro feminina com alças estruturadas e espaço interno ideal para transportar pertences pessoais.', 69.99, '12.jpg', 2),
     (13, 'Máscara de Cílios Trópico Ruby Rose', 'Máscara de cílios Trópico da Ruby Rose, com aplicador desenvolvido para destacar os cílios proporcionando volume.', 24.99, '13.jpg', 7),
     (14, 'Máscara de Cílios Melu', 'Máscara de cílios Melu da Ruby Rose. Proporciona alongamento, definição e efeito curvado aos cílios.', 24.99, '14.jpg', 7),
-    (15, 'Máscara de Cílios Melu Rosa', 'Máscara de cílios Melu com embalagem rosa, indicada para dar definição e realce aos cílios.', 24.99, '15.jpg', 7),
+    (15, 'Máscara de Cílios Melu Rosa', 'Máscara de cílios Melu, indicada para dar definição e realce aos cílios.', 24.99, '15.jpg', 7),
     (16, 'Paleta de Sombras', 'Paleta contendo sombras com acabamentos variados e tonalidades adequadas para uso diário.', 24.99, '16.jpg', 7),
     (17, 'Bolsa Lateral Transversal', 'Bolsa lateral transversal equipada com alça ajustável e divisórias de fácil acesso para pertences diários.', 59.99, '17.jpg', 2),
     (18, 'Bolsa Tiracolo Compacta', 'Bolsa de ombro tiracolo com formato compacto e fecho seguro para transporte prático de itens indispensáveis.', 59.99, '18.jpg', 2),
     (19, 'Pó Facial Banana', 'Pó facial solto tipo Banana de textura fina, indicado para selar a maquiagem e auxiliar no controle do brilho da pele.', 15.00, '19.jpg', 7),
     (20, 'Máscara de Cílios Ruby Rose Trópico', 'Máscara de cílios Trópico da Ruby Rose, formulada para promover o alongamento e a definição de cada fio.', 24.99, '20.jpg', 7),
-    (21, 'Máscara de Cílios Melu Laranja', 'Máscara de cílios Melu com embalagem laranja, focada em promover alongamento e curvatura aos fios.', 24.99, '21.jpg', 7),
-    (22, 'Máscara de Cílios Melu Rosa', 'Máscara de cílios Melu com embalagem rosa, desenvolvida para realçar o volume dos cílios.', 24.99, '22.jpg', 7),
+    (21, 'Máscara de Cílios Melu Laranja', 'Máscara de cílios Melu, focada em promover alongamento e curvatura aos fios.', 24.99, '21.jpg', 7),
+    (22, 'Máscara de Cílios Melu Rosa', 'Máscara de cílios Melu, desenvolvida para realçar o volume dos cílios.', 24.99, '22.jpg', 7),
     (23, 'Sérum Facial Hidratante', 'Sérum facial de textura fluida e rápida absorção, indicado para a hidratação diária de todos os tipos de pele.', 24.99, '23.jpg', 4),
     (24, 'Base Líquida Bruna Tavares', 'Base líquida BT Skin de Bruna Tavares. Oferece cobertura uniforme com acabamento aveludado e fórmula com ativos de tratamento para a pele.', 84.99, '24.jpg', 7),
     (25, 'Gloss Labial Chocolate', 'Gloss labial com aroma e tonalidade suave de chocolate, proporcionando brilho luminoso e maciez aos lábios.', 15.00, '25.jpg', 5),
@@ -41,8 +41,8 @@ VALUES
     (28, 'Body Splash Lady in Red', 'Body splash com fragrância refrescante que combina notas frutadas e adocicadas para uso diário.', 39.99, '28.jpg', 1),
     (29, 'Body Splash Rosé Glamour', 'Body splash leve com notas de rosas e toque floral para manter a pele perfumada.', 39.99, '29.jpg', 1),
     (30, 'Body Splash Bronze Goddess', 'Body splash corporal com aroma levemente quente, ideal para refrescar a pele ao longo do dia.', 56.99, '30.jpg', 1),
-    (31, 'Kit Olympea Presente', 'Kit de presente contendo loção corporal e fragrância inspirada no aroma Olympea.', 69.99, '31.jpg', 6),
-    (32, 'Gloss labial', 'Gloss labial incolor de acabamento brilhante, formulado para hidratar e dar brilho aos lábios.', 19.99, '32.jpg', 5);
+    (31, 'Kit Olympea Presente', 'Kit de presente inspirado em Olympea com um toque de elegância.', 69.99, '31.jpg', 6),
+    (32, 'Gloss labial', 'Gloss labial de acabamento brilhante, formulado para hidratar e dar brilho aos lábios.', 19.99, '32.jpg', 5);
 
 INSERT INTO caracteristica (nome)
 VALUES
