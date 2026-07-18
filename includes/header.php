@@ -1,12 +1,13 @@
 <?php
-$baseUrl = $baseUrl ?? '';
-$currentPage = $pagina ?? 'home';
-$buscaHeader = trim($_GET['busca'] ?? '');
+$baseUrl       = $baseUrl ?? '';
+$currentPage   = $pagina ?? 'home';
+$buscaHeader   = trim($_GET['busca'] ?? '');
+$itensCarrinho = contarItensCarrinho();
 
 $navLinks = [
-  ['name' => 'Início', 'href' => $baseUrl . '/', 'page' => 'home'],
+  ['name' => 'Início',   'href' => $baseUrl . '/',        'page' => 'home'],
   ['name' => 'Produtos', 'href' => $baseUrl . '/produtos', 'page' => 'produtos'],
-  ['name' => 'Sobre', 'href' => $baseUrl . '/sobre', 'page' => 'sobre'],
+  ['name' => 'Sobre',    'href' => $baseUrl . '/sobre',    'page' => 'sobre'],
 ];
 ?>
 
@@ -109,6 +110,17 @@ $navLinks = [
         </button>
       </form>
 
+      <!-- Ícone do carrinho (desktop) -->
+      <a href="<?= e($baseUrl) ?>/carrinho" class="btn btn-outline-secondary position-relative ms-2" aria-label="Carrinho de compras" title="Carrinho">
+        <i class="bi bi-cart3"></i>
+        <?php if ($itensCarrinho > 0): ?>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary" style="font-size: 0.65rem;">
+            <?= e($itensCarrinho) ?>
+            <span class="visually-hidden">itens no carrinho</span>
+          </span>
+        <?php endif; ?>
+      </a>
+
     </nav>
 
     <!-- Mobile -->
@@ -124,6 +136,16 @@ $navLinks = [
             </a>
           </li>
         <?php endforeach; ?>
+
+        <!-- Carrinho (mobile) -->
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center gap-2 <?= $currentPage === 'carrinho' ? 'active' : '' ?>" href="<?= e($baseUrl) ?>/carrinho">
+            <i class="bi bi-cart3"></i> Carrinho
+            <?php if ($itensCarrinho > 0): ?>
+              <span class="badge rounded-pill bg-primary" style="font-size: 0.65rem;"><?= e($itensCarrinho) ?></span>
+            <?php endif; ?>
+          </a>
+        </li>
 
       </ul>
 

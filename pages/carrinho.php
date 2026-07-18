@@ -4,88 +4,6 @@ defined('APP_ROOT') || die('Acesso direto não permitido.');
 
 $baseUrl = $baseUrl ?? '';
 
-// ─── Tratamento de POST (PRG) ──────────────────────────────────────────────
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $acao = $_POST['acao'] ?? '';
-
-    switch ($acao) {
-
-        case 'adicionar':
-            $produtoId = isset($_POST['produto_id']) ? (int) $_POST['produto_id'] : 0;
-            $quantidade = isset($_POST['quantidade']) ? (int) $_POST['quantidade'] : 1;
-
-            if ($produtoId <= 0) {
-                definirMensagem('danger', 'Produto inválido.');
-                header('Location: ' . $baseUrl . '/carrinho');
-                exit;
-            }
-
-            $produto = buscarProdutoPorId($pdo, $produtoId);
-
-            if (!$produto) {
-                definirMensagem('danger', 'Produto não encontrado.');
-                header('Location: ' . $baseUrl . '/carrinho');
-                exit;
-            }
-
-            if ($quantidade < 1) {
-                $quantidade = 1;
-            }
-
-            adicionarAoCarrinho($produto, $quantidade);
-            definirMensagem('success', 'Produto adicionado ao carrinho!');
-            header('Location: ' . $baseUrl . '/carrinho');
-            exit;
-
-        case 'atualizar':
-            $produtoId = isset($_POST['produto_id']) ? (int) $_POST['produto_id'] : 0;
-            $quantidade = isset($_POST['quantidade']) ? (int) $_POST['quantidade'] : 0;
-
-            if ($produtoId <= 0) {
-                definirMensagem('danger', 'Produto inválido.');
-                header('Location: ' . $baseUrl . '/carrinho');
-                exit;
-            }
-
-            atualizarQuantidadeCarrinho($produtoId, $quantidade);
-
-            if ($quantidade <= 0) {
-                definirMensagem('info', 'Item removido do carrinho.');
-            } else {
-                definirMensagem('success', 'Quantidade atualizada.');
-            }
-
-            header('Location: ' . $baseUrl . '/carrinho');
-            exit;
-
-        case 'remover':
-            $produtoId = isset($_POST['produto_id']) ? (int) $_POST['produto_id'] : 0;
-
-            if ($produtoId <= 0) {
-                definirMensagem('danger', 'Produto inválido.');
-                header('Location: ' . $baseUrl . '/carrinho');
-                exit;
-            }
-
-            removerDoCarrinho($produtoId);
-            definirMensagem('info', 'Item removido do carrinho.');
-            header('Location: ' . $baseUrl . '/carrinho');
-            exit;
-
-        case 'limpar':
-            limparCarrinho();
-            definirMensagem('info', 'Carrinho esvaziado.');
-            header('Location: ' . $baseUrl . '/carrinho');
-            exit;
-
-        default:
-            definirMensagem('danger', 'Ação desconhecida.');
-            header('Location: ' . $baseUrl . '/carrinho');
-            exit;
-    }
-}
-
 // ─── GET — interface completa ────────────────────────────────────────────────
 
 $carrinho  = obterCarrinho();
@@ -93,8 +11,8 @@ $total     = calcularTotalCarrinho();
 $mensagem  = obterMensagem();
 
 $breadcrumbs = [
-    ['name' => 'Início', 'href' => $baseUrl . '/'],
-    ['name' => 'Carrinho'],
+  ['name' => 'Início', 'href' => $baseUrl . '/'],
+  ['name' => 'Carrinho'],
 ];
 
 require_once APP_ROOT . '/includes/breadcrumb.php';
@@ -147,8 +65,7 @@ require_once APP_ROOT . '/includes/breadcrumb.php';
                   <img
                     src="<?= e($baseUrl) ?>/assets/images/<?= e($item['imagem']) ?>"
                     alt="<?= e($item['nome']) ?>"
-                    class="carrinho-img"
-                  >
+                    class="carrinho-img">
                 <?php else: ?>
                   <div class="carrinho-img bg-light d-flex align-items-center justify-content-center rounded">
                     <i class="bi bi-image text-muted fs-4"></i>
@@ -167,7 +84,7 @@ require_once APP_ROOT . '/includes/breadcrumb.php';
               <!-- Quantidade — formulário atualizar -->
               <td class="text-center">
                 <form method="post" action="<?= e($baseUrl) ?>/carrinho" class="d-flex align-items-center justify-content-center gap-1">
-                  <input type="hidden" name="acao"       value="atualizar">
+                  <input type="hidden" name="acao" value="atualizar">
                   <input type="hidden" name="produto_id" value="<?= e($item['id']) ?>">
                   <input
                     type="number"
@@ -176,8 +93,7 @@ require_once APP_ROOT . '/includes/breadcrumb.php';
                     min="1"
                     max="999"
                     class="form-control form-control-sm carrinho-qty-input text-center"
-                    aria-label="Quantidade de <?= e($item['nome']) ?>"
-                  >
+                    aria-label="Quantidade de <?= e($item['nome']) ?>">
                   <button type="submit" class="btn btn-outline-secondary btn-sm" title="Atualizar quantidade">
                     <i class="bi bi-arrow-clockwise"></i>
                   </button>
@@ -192,7 +108,7 @@ require_once APP_ROOT . '/includes/breadcrumb.php';
               <!-- Remover -->
               <td class="text-end">
                 <form method="post" action="<?= e($baseUrl) ?>/carrinho">
-                  <input type="hidden" name="acao"       value="remover">
+                  <input type="hidden" name="acao" value="remover">
                   <input type="hidden" name="produto_id" value="<?= e($item['id']) ?>">
                   <button type="submit" class="btn btn-outline-danger btn-sm" title="Remover item">
                     <i class="bi bi-trash3"></i>

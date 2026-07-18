@@ -3,7 +3,7 @@ require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/functions.php';
 
-$baseUrl = $baseUrl ?? '';
+$baseUrl   = $baseUrl ?? '';
 $produtoId = $produtoId ?? null;
 
 $produto = buscarProdutoPorId($pdo, $produtoId);
@@ -30,9 +30,19 @@ $breadcrumbs = [
   ['name' => 'Produtos', 'href' => $baseUrl . '/produtos'],
   ['name' => $produto['nome'], 'href' => $baseUrl . '/produtos/' . $produto['id']],
 ];
+$mensagem = obterMensagem();
 ?>
 
 <?php require_once __DIR__ . '/../includes/breadcrumb.php'; ?>
+
+<?php if ($mensagem): ?>
+  <div class="container container-sm pt-3">
+    <div class="alert alert-<?= e($mensagem['tipo']) ?> alert-dismissible fade show" role="alert">
+      <?= e($mensagem['texto']) ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+  </div>
+<?php endif; ?>
 
 <main class="container flex-grow-1 d-flex flex-column gap-5">
   <section class="container-sm pt-4">
@@ -64,9 +74,29 @@ $breadcrumbs = [
               </div>
             </div>
           <?php endif; ?>
+          <!-- Formulário: adicionar ao carrinho -->
+          <form method="post" action="<?= e($baseUrl) ?>/carrinho" class="d-flex align-items-center gap-2 mt-3">
+            <input type="hidden" name="acao" value="adicionar">
+            <input type="hidden" name="produto_id" value="<?= e($produto['id']) ?>">
+            <input type="hidden" name="redirect" value="<?= e($baseUrl) ?>/produtos/<?= e($produto['id']) ?>">
+            <label for="quantidade-produto" class="visually-hidden">Quantidade</label>
+            <input
+              type="number"
+              id="quantidade-produto"
+              name="quantidade"
+              value="1"
+              min="1"
+              max="999"
+              class="form-control form-control" style="width: 80px;"
+              aria-label="Quantidade">
+            <button type="submit" class="btn btn-primary flex-grow-1">
+              <i class="bi bi-cart-plus me-1"></i> Adicionar ao Carrinho
+            </button>
+          </form>
+
           <a
-            href="<?= $linkWhatsapp ?>"
-            class="btn btn-success btn-whatsapp mt-3 align-self-start d-inline-flex align-items-center gap-2 py-2 px-4 text-white fw-semibold rounded-pill w-100 text-center justify-content-center"
+            href="<?= e($linkWhatsapp) ?>"
+            class="btn btn-success btn-whatsapp align-self-start d-inline-flex align-items-center gap-2 py-2 px-4 text-white fw-semibold rounded-pill w-100 text-center justify-content-center"
             target="_blank"
             rel="noopener noreferrer">
             <i class="bi bi-whatsapp"></i>

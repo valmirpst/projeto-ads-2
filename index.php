@@ -80,6 +80,19 @@ if ($pagina === null || $pagina === '') {
   $pagina = 'home';
 }
 
+// ─── Pré-despacho: ações POST processadas antes de qualquer output HTML ──────
+// Segue o mesmo padrão do bloco admin: inclui o handler e encerra sem emitir HTML.
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $acoesPost = [
+    'carrinho' => 'pages/carrinho_actions.php',
+  ];
+
+  if (array_key_exists($pagina, $acoesPost)) {
+    require_once $acoesPost[$pagina];
+    exit; // o handler já faz exit, mas garantimos aqui também
+  }
+}
+
 $stylesheet = $pagina . '.css';
 ?>
 
