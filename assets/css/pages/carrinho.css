@@ -1,22 +1,36 @@
-/* Imagem do produto na tabela do carrinho */
-.carrinho-img {
-  width: 64px;
-  height: 64px;
+/* Imagem do produto no card */
+.carrinho-img-card {
+  width: 100%;
+  max-width: 80px;
+  aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 0.375rem;
 }
 
-/* Célula de quantidade mais compacta */
-.carrinho-qty-input {
-  width: 70px;
+/* Grupo de quantidade */
+.carrinho-qty-group {
+  border: 1px solid var(--bs-border-color);
+  background-color: var(--bs-light);
 }
 
-/* Linha de total */
-.carrinho-total-row td {
-  border-top: 2px solid var(--bs-border-color);
+/* Remove setas nativas do input type="number" */
+.carrinho-qty-group input[type="number"]::-webkit-inner-spin-button,
+.carrinho-qty-group input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-/* Bloco de ações do rodapé */
-.carrinho-actions {
-  gap: 0.5rem;
+.carrinho-qty-group input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+/* Efeito hover nos cards */
+.carrinho-card {
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+}
+.carrinho-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }

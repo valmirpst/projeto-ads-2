@@ -43,109 +43,124 @@ require_once APP_ROOT . '/includes/breadcrumb.php';
 
   <?php else: ?>
 
-    <div class="table-responsive">
-      <table class="table table-hover align-middle">
-        <thead class="table-light">
-          <tr>
-            <th scope="col" colspan="2">Produto</th>
-            <th scope="col" class="text-center">Preço Unit.</th>
-            <th scope="col" class="text-center">Quantidade</th>
-            <th scope="col" class="text-end">Subtotal</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($carrinho as $item): ?>
-            <?php $subtotal = (float) $item['preco'] * (int) $item['quantidade']; ?>
-            <tr>
+    <div class="row g-4">
+      <!-- Lista de Produtos -->
+      <div class="col-lg-8">
+        <?php foreach ($carrinho as $item): ?>
+          <?php $subtotal = (float) $item['preco'] * (int) $item['quantidade']; ?>
+          <div class="card mb-3 border-0 shadow-sm rounded-4 carrinho-card">
+            <div class="card-body p-3 p-md-4">
+              <div class="row align-items-center g-3">
+                <!-- Imagem -->
+                <div class="col-3 col-md-2 text-center">
+                  <?php if (!empty($item['imagem'])): ?>
+                    <img
+                      src="<?= e($baseUrl) ?>/uploads/<?= e($item['imagem']) ?>"
+                      alt="<?= e($item['nome']) ?>"
+                      class="img-fluid rounded-3 carrinho-img-card"
+                      onerror="this.onerror=null;this.src='<?= e($baseUrl) ?>/assets/images/fallback.jpg';">
+                  <?php else: ?>
+                    <div class="carrinho-img-card bg-light d-flex align-items-center justify-content-center rounded-3 mx-auto">
+                      <i class="bi bi-image text-muted fs-4"></i>
+                    </div>
+                  <?php endif; ?>
+                </div>
 
-              <!-- Imagem -->
-              <td style="width: 80px;">
-                <?php if (!empty($item['imagem'])): ?>
-                  <img
-                    src="<?= e($baseUrl) ?>/uploads/<?= e($item['imagem']) ?>"
-                    alt="<?= e($item['nome']) ?>"
-                    class="carrinho-img"
-                    onerror="this.onerror=null;this.src='<?= e($baseUrl) ?>/assets/images/fallback.jpg';">
-                <?php else: ?>
-                  <div class="carrinho-img bg-light d-flex align-items-center justify-content-center rounded">
-                    <i class="bi bi-image text-muted fs-4"></i>
+                <!-- Info do Produto -->
+                <div class="col-9 col-md-4">
+                  <h5 class="fs-6 fw-bold mb-1 text-truncate" title="<?= e($item['nome']) ?>"><?= e($item['nome']) ?></h5>
+                  <p class="text-muted small mb-0">Vendido e entregue por <strong>ManuMake</strong></p>
+                </div>
+
+                <!-- Controles e Preço -->
+                <div class="col-12 col-md-6 mt-3 mt-md-0">
+                  <div class="d-flex align-items-center justify-content-between justify-content-md-end gap-3 gap-md-4">
+
+                    <!-- Quantidade -->
+                    <form method="post" action="<?= e($baseUrl) ?>/carrinho" class="d-flex align-items-center">
+                      <input type="hidden" name="acao" value="atualizar">
+                      <input type="hidden" name="produto_id" value="<?= e($item['id']) ?>">
+                      <div class="input-group input-group-sm carrinho-qty-group shadow-sm rounded-pill overflow-hidden">
+                        <button type="submit" class="btn btn-light px-2 border-0 text-secondary" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" title="Diminuir">
+                          <i class="bi bi-dash"></i>
+                        </button>
+                        <input
+                          type="number"
+                          name="quantidade"
+                          value="<?= e($item['quantidade']) ?>"
+                          min="1"
+                          max="999"
+                          class="form-control border-0 text-center fw-semibold px-0 bg-light"
+                          style="width: 45px; box-shadow: none;"
+                          aria-label="Quantidade">
+                        <button type="submit" class="btn btn-light px-2 border-0 text-secondary" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" title="Aumentar">
+                          <i class="bi bi-plus"></i>
+                        </button>
+                      </div>
+                    </form>
+
+                    <!-- Preço -->
+                    <div class="text-end">
+                      <div class="fw-bold text-primary fs-5 lh-1 mb-1"><?= e(formatarPreco($subtotal)) ?></div>
+                      <div class="text-muted small">un. <?= e(formatarPreco($item['preco'])) ?></div>
+                    </div>
+
+                    <!-- Remover -->
+                    <form method="post" action="<?= e($baseUrl) ?>/carrinho">
+                      <input type="hidden" name="acao" value="remover">
+                      <input type="hidden" name="produto_id" value="<?= e($item['id']) ?>">
+                      <button type="submit" class="btn btn-link text-danger p-0 ms-2" title="Remover item">
+                        <i class="bi bi-trash3 fs-5"></i>
+                      </button>
+                    </form>
+
                   </div>
-                <?php endif; ?>
-              </td>
+                </div>
+              </div>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
 
-              <!-- Nome -->
-              <td><?= e($item['nome']) ?></td>
+      <!-- Resumo do Pedido -->
+      <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 sticky-lg-top" style="top: 2rem;">
+          <div class="card-body p-4">
+            <h5 class="card-title fw-bold mb-4">Resumo do pedido</h5>
 
-              <!-- Preço unitário -->
-              <td class="text-center text-muted">
-                <?= e(formatarPreco($item['preco'])) ?>
-              </td>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Subtotal (<?= array_sum(array_column($carrinho, 'quantidade')) ?> itens)</span>
+              <span class="fw-medium"><?= e(formatarPreco($total)) ?></span>
+            </div>
 
-              <!-- Quantidade — formulário atualizar -->
-              <td class="text-center">
-                <form method="post" action="<?= e($baseUrl) ?>/carrinho" class="d-flex align-items-center justify-content-center gap-1">
-                  <input type="hidden" name="acao" value="atualizar">
-                  <input type="hidden" name="produto_id" value="<?= e($item['id']) ?>">
-                  <input
-                    type="number"
-                    name="quantidade"
-                    value="<?= e($item['quantidade']) ?>"
-                    min="1"
-                    max="999"
-                    class="form-control form-control-sm carrinho-qty-input text-center rounded-3"
-                    aria-label="Quantidade de <?= e($item['nome']) ?>">
-                  <button type="submit" class="btn btn-outline-primary btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 28px; height: 28px;" title="Atualizar quantidade">
-                    <i class="bi bi-arrow-clockwise"></i>
-                  </button>
-                </form>
-              </td>
+            <hr class="border-secondary-subtle mb-4">
 
-              <!-- Subtotal -->
-              <td class="text-end fw-semibold">
-                <?= e(formatarPreco($subtotal)) ?>
-              </td>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <span class="fw-bold fs-5">Total</span>
+              <span class="fw-bold fs-4 text-primary"><?= e(formatarPreco($total)) ?></span>
+            </div>
 
-              <!-- Remover -->
-              <td class="text-end">
-                <form method="post" action="<?= e($baseUrl) ?>/carrinho">
-                  <input type="hidden" name="acao" value="remover">
-                  <input type="hidden" name="produto_id" value="<?= e($item['id']) ?>">
-                  <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 28px; height: 28px;" title="Remover item">
-                    <i class="bi bi-trash3"></i>
-                  </button>
-                </form>
-              </td>
+            <!-- Ações -->
+            <div class="d-flex flex-column gap-3">
+              <a href="#" class="btn btn-primary rounded-5 py-3 fw-bold fs-6 shadow-sm">
+                Continuar
+              </a>
 
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
+              <a href="<?= e($baseUrl) ?>/produtos" class="btn btn-outline-primary rounded-5 py-2 fw-medium">
+                Continuar Comprando
+              </a>
 
-        <!-- Total geral -->
-        <tfoot>
-          <tr class="carrinho-total-row">
-            <td colspan="4" class="text-end text-muted">Total:</td>
-            <td class="text-end fw-bold fs-5 text-primary"><?= e(formatarPreco($total)) ?></td>
-            <td></td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
+              <form method="post" action="<?= e($baseUrl) ?>/carrinho" class="mt-2 text-center">
+                <input type="hidden" name="acao" value="limpar">
+                <button type="submit" class="btn btn-link text-danger text-decoration-none p-0 fw-medium">
+                  <i class="bi bi-trash3 me-1"></i> Limpar Carrinho
+                </button>
+              </form>
+            </div>
 
-    <!-- Ações do rodapé -->
-    <div class="d-flex flex-wrap justify-content-between carrinho-actions mt-4">
-
-      <form method="post" action="<?= e($baseUrl) ?>/carrinho">
-        <input type="hidden" name="acao" value="limpar">
-        <button type="submit" class="btn btn-outline-danger rounded-5 px-4 fw-medium">
-          <i class="bi bi-trash3 me-1"></i> Limpar Carrinho
-        </button>
-      </form>
-
-      <a href="<?= e($baseUrl) ?>/produtos" class="btn btn-outline-primary rounded-5 px-4 fw-medium">
-        <i class="bi bi-arrow-left me-1"></i> Continuar Comprando
-      </a>
-
+          </div>
+        </div>
+      </div>
     </div>
 
   <?php endif; ?>
