@@ -2,6 +2,8 @@
 
 defined('APP_ROOT') || die('Acesso direto não permitido.');
 
+require_once APP_ROOT . '/config/config.php';
+
 $baseUrl = $baseUrl ?? '';
 
 // ─── GET — interface completa ────────────────────────────────────────────────
@@ -9,6 +11,28 @@ $baseUrl = $baseUrl ?? '';
 $carrinho  = obterCarrinho();
 $total     = calcularTotalCarrinho();
 $mensagem  = obterMensagem();
+
+$linkWhatsapp = '#';
+if (!empty($carrinho)) {
+  $numeroTelefone = defined('WHATSAPP_NUMERO') ? WHATSAPP_NUMERO : '';
+
+  $texto = "Olá! Gostaria de finalizar o seguinte pedido:\n\n";
+
+  foreach ($carrinho as $item) {
+    $subtotalItem = (float) $item['preco'] * (int) $item['quantidade'];
+    $precoFormatado = formatarPreco($item['preco']);
+    $subtotalFormatado = formatarPreco($subtotalItem);
+
+    $texto .= "- *{$item['nome']}*\n";
+    $texto .= "  {$item['quantidade']}x {$precoFormatado} = {$subtotalFormatado}\n";
+  }
+
+  $totalFormatado = formatarPreco($total);
+  $texto .= "\n*Total do Pedido: {$totalFormatado}*";
+
+  $mensagemWhatsapp = rawurlencode($texto);
+  $linkWhatsapp = "https://wa.me/{$numeroTelefone}?text={$mensagemWhatsapp}";
+}
 
 $breadcrumbs = [
   ['name' => 'Início', 'href' => $baseUrl . '/'],
@@ -53,22 +77,28 @@ require_once APP_ROOT . '/includes/breadcrumb.php';
               <div class="row align-items-center g-3">
                 <!-- Imagem -->
                 <div class="col-3 col-md-2 text-center">
-                  <?php if (!empty($item['imagem'])): ?>
-                    <img
-                      src="<?= e($baseUrl) ?>/uploads/<?= e($item['imagem']) ?>"
-                      alt="<?= e($item['nome']) ?>"
-                      class="img-fluid rounded-3 carrinho-img-card"
-                      onerror="this.onerror=null;this.src='<?= e($baseUrl) ?>/assets/images/fallback.jpg';">
-                  <?php else: ?>
-                    <div class="carrinho-img-card bg-light d-flex align-items-center justify-content-center rounded-3 mx-auto">
-                      <i class="bi bi-image text-muted fs-4"></i>
-                    </div>
-                  <?php endif; ?>
+                  <a href="<?= e($baseUrl) ?>/produtos/<?= e($item['id']) ?>">
+                    <?php if (!empty($item['imagem'])): ?>
+                      <img
+                        src="<?= e($baseUrl) ?>/uploads/<?= e($item['imagem']) ?>"
+                        alt="<?= e($item['nome']) ?>"
+                        class="img-fluid rounded-3 carrinho-img-card"
+                        onerror="this.onerror=null;this.src='<?= e($baseUrl) ?>/assets/images/fallback.jpg';">
+                    <?php else: ?>
+                      <div class="carrinho-img-card bg-light d-flex align-items-center justify-content-center rounded-3 mx-auto text-dark">
+                        <i class="bi bi-image text-muted fs-4"></i>
+                      </div>
+                    <?php endif; ?>
+                  </a>
                 </div>
 
                 <!-- Info do Produto -->
                 <div class="col-9 col-md-4">
-                  <h5 class="fs-6 fw-bold mb-1 text-truncate" title="<?= e($item['nome']) ?>"><?= e($item['nome']) ?></h5>
+                  <h5 class="fs-6 fw-bold mb-1 text-truncate" title="<?= e($item['nome']) ?>">
+                    <a href="<?= e($baseUrl) ?>/produtos/<?= e($item['id']) ?>" class="text-decoration-none text-dark">
+                      <?= e($item['nome']) ?>
+                    </a>
+                  </h5>
                   <p class="text-muted small mb-0">Vendido e entregue por <strong>ManuMake</strong></p>
                 </div>
 
@@ -142,8 +172,8 @@ require_once APP_ROOT . '/includes/breadcrumb.php';
 
             <!-- Ações -->
             <div class="d-flex flex-column gap-3">
-              <a href="#" class="btn btn-primary rounded-5 py-3 fw-bold fs-6 shadow-sm">
-                Continuar
+              <a href="<?= e($linkWhatsapp) ?>" class="btn btn-success btn-whatsapp rounded-5 py-3 fw-bold fs-6 shadow-sm d-flex align-items-center justify-content-center gap-2" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-whatsapp"></i> Continuar
               </a>
 
               <a href="<?= e($baseUrl) ?>/produtos" class="btn btn-outline-primary rounded-5 py-2 fw-medium">
