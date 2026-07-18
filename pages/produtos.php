@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config/functions.php';
+// Esta página é carregada pelo index.php (front controller).
+defined('APP_ROOT') || die('Acesso direto não permitido.');
 
 $baseUrl = $baseUrl ?? '';
 
@@ -9,22 +9,24 @@ $breadcrumbs = [
   ['name' => 'Produtos', 'href' => $baseUrl . '/produtos'],
 ];
 
-function montarUrlProdutos(string $baseUrl, array $params = []): string
-{
-  $params = array_filter($params, fn($valor) => $valor !== null && $valor !== '');
-  $query = http_build_query($params);
-
-  return $baseUrl . '/produtos' . ($query ? '?' . $query : '');
-}
-
 $categoriaSlug = $_GET['categoria'] ?? null;
 $ordenar = $_GET['ordenar'] ?? '';
 $busca = trim($_GET['busca'] ?? '');
 $buscaAtiva = $busca !== '';
 $categorias = buscarCategorias($pdo);
+
+$porPagina = 16;
+$paginaAtual = max(1, (int) ($_GET['page'] ?? 1));
+$totalProdutos = $buscaAtiva
+  ? contarProdutosPorTermo($pdo, $busca, $categoriaSlug)
+  : contarProdutos($pdo, $categoriaSlug);
+$totalPaginas = $totalProdutos > 0 ? (int) ceil($totalProdutos / $porPagina) : 1;
+$paginaAtual = min($paginaAtual, $totalPaginas);
+$offset = ($paginaAtual - 1) * $porPagina;
+
 $produtos = $buscaAtiva
-  ? buscarProdutosPorTermo($pdo, $busca, $categoriaSlug, $ordenar)
-  : buscarProdutos($pdo, $categoriaSlug, $ordenar);
+  ? buscarProdutosPorTermo($pdo, $busca, $categoriaSlug, $ordenar, $porPagina, $offset)
+  : buscarProdutos($pdo, $categoriaSlug, $ordenar, $porPagina, $offset);
 $totalFiltrosAtivos = ($categoriaSlug ? 1 : 0) + ($buscaAtiva ? 1 : 0);
 $filtrosAtivos = $totalFiltrosAtivos > 0;
 $filtrosCompartilhados = [
@@ -161,6 +163,42 @@ $filtrosCompartilhados = [
             </div>
           <?php endforeach; ?>
         </div>
+
+        <?php if ($totalPaginas > 1) : ?>
+          <?php
+          $paramsPaginacao = array_filter([
+            'categoria' => $categoriaSlug,
+            'ordenar'   => $ordenar,
+            'busca'     => $busca,
+          ], fn($v) => $v !== null && $v !== '');
+          ?>
+          <nav class="mt-5" aria-label="Paginação de produtos">
+            <ul class="pagination justify-content-center">
+              <!-- Anterior -->
+              <li class="page-item <?= $paginaAtual <= 1 ? 'disabled' : '' ?>">
+                <a class="page-link" href="<?= montarUrlProdutos($baseUrl, array_merge($paramsPaginacao, ['page' => $paginaAtual - 1])) ?>" aria-label="Página anterior">
+                  <span aria-hidden="true">&lsaquo;</span>
+                </a>
+              </li>
+
+              <!-- Números das páginas -->
+              <?php for ($i = 1; $i <= $totalPaginas; $i++) : ?>
+                <li class="page-item <?= $i === $paginaAtual ? 'active' : '' ?>">
+                  <a class="page-link" href="<?= montarUrlProdutos($baseUrl, array_merge($paramsPaginacao, ['page' => $i])) ?>">
+                    <?= $i ?>
+                  </a>
+                </li>
+              <?php endfor; ?>
+
+              <!-- Próximo -->
+              <li class="page-item <?= $paginaAtual >= $totalPaginas ? 'disabled' : '' ?>">
+                <a class="page-link" href="<?= montarUrlProdutos($baseUrl, array_merge($paramsPaginacao, ['page' => $paginaAtual + 1])) ?>" aria-label="Próxima página">
+                  <span aria-hidden="true">&rsaquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        <?php endif; ?>
       </div>
     </div>
   </section>

@@ -1,12 +1,13 @@
 <?php
-$baseUrl = $baseUrl ?? '';
-$currentPage = $pagina ?? 'home';
-$buscaHeader = trim($_GET['busca'] ?? '');
+$baseUrl       = $baseUrl ?? '';
+$currentPage   = $pagina ?? 'home';
+$buscaHeader   = trim($_GET['busca'] ?? '');
+$itensCarrinho = contarItensCarrinho();
 
 $navLinks = [
-  ['name' => 'Início', 'href' => $baseUrl . '/', 'page' => 'home'],
-  ['name' => 'Produtos', 'href' => $baseUrl . '/produtos', 'page' => 'produtos'],
-  ['name' => 'Sobre', 'href' => $baseUrl . '/sobre', 'page' => 'sobre'],
+  ['name' => 'Início',   'href' => $baseUrl . '/',        'page' => 'home', 'icon' => 'bi-house-door'],
+  ['name' => 'Produtos', 'href' => $baseUrl . '/produtos', 'page' => 'produtos', 'icon' => 'bi-bag'],
+  ['name' => 'Sobre',    'href' => $baseUrl . '/sobre',    'page' => 'sobre', 'icon' => 'bi-info-circle'],
 ];
 ?>
 
@@ -93,7 +94,7 @@ $navLinks = [
         <?php endforeach; ?>
       </ul>
 
-      <form class="header-busca d-none d-lg-flex ms-auto" method="get" action="<?= $baseUrl ?>/produtos">
+      <form class="header-busca d-none d-lg-flex ms-auto my-auto " method="get" action="<?= $baseUrl ?>/produtos">
         <label for="busca-header-desktop" class="visually-hidden">Buscar produtos</label>
         <input
           type="search"
@@ -109,6 +110,17 @@ $navLinks = [
         </button>
       </form>
 
+      <!-- Ícone do carrinho (desktop) -->
+      <a href="<?= e($baseUrl) ?>/carrinho" class="btn btn-outline-primary position-relative ms-3 me-2 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 40px; height: 40px;" aria-label="Carrinho de compras" title="Carrinho">
+        <i class="bi bi-cart3" style="font-size: 1.1rem;"></i>
+        <?php if ($itensCarrinho > 0): ?>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary" style="font-size: 0.65rem;">
+            <?= e($itensCarrinho) ?>
+            <span class="visually-hidden">itens no carrinho</span>
+          </span>
+        <?php endif; ?>
+      </a>
+
     </nav>
 
     <!-- Mobile -->
@@ -118,9 +130,9 @@ $navLinks = [
         <?php foreach ($navLinks as $link): ?>
           <li class="nav-item">
             <a
-              class="nav-link <?= $currentPage === $link['page'] ? 'active' : '' ?>"
+              class="nav-link d-flex align-items-center gap-2 <?= $currentPage === $link['page'] ? 'active' : '' ?>"
               href="<?= $link['href'] ?>">
-              <?= $link['name'] ?>
+              <i class="bi <?= $link['icon'] ?>"></i> <?= $link['name'] ?>
             </a>
           </li>
         <?php endforeach; ?>
