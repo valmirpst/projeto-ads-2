@@ -1,5 +1,7 @@
-# Ignorar a .github temporariamente (estou usando o projeto para realizar testes com o Copilot)
+NO_COMMIT
 .github/
+.agents
+AGENTS.md
 
 # Variáveis de ambiente
 .env*

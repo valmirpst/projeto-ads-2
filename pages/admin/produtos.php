@@ -142,68 +142,85 @@ $adminTitulo = 'Produtos - Admin ManuMake';
     </section>
 
     <section class="col-12 col-lg-8">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body p-0">
-          <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0 text-nowrap">
-              <thead class="table-light">
-                <tr>
-                  <th class="small px-3 py-3 border-0">Produto</th>
-                  <th class="small py-3 border-0">Preço</th>
-                  <th class="small py-3 border-0">Categoria</th>
-                  <th class="small px-3 py-3 border-0 text-end">Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php foreach ($produtos as $produto): ?>
-                  <tr>
-                    <td class="fw-medium text-dark">
-                      <div class="d-flex align-items-center gap-2">
-                        <?php if (!empty($produto['imagem'])): ?>
-                          <div style="width:56px;height:56px;flex:0 0 56px;">
-                            <img
-                              src=" <?= e($baseUrl) ?>/uploads/<?= e($produto['imagem']) ?>"
-                              alt="<?= e($produto['nome']) ?>"
-                              class="w-100 h-100 rounded object-fit-cover shadow-sm border"
-                              loading="lazy"
-                              onerror="this.onerror=null;this.src='<?= e($baseUrl) ?>/assets/images/fallback.jpg';">
-                          </div>
-                        <?php endif; ?>
-                        <span><?= e($produto['nome']) ?></span>
-                      </div>
-                    </td>
-                    <td><?= e(formatarPreco($produto['preco'])) ?></td>
-                    <td>
-                      <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle rounded-pill">
-                        <?= e($produto['categoria_nome']) ?>
-                      </span>
-                    </td>
-                    <td class="text-end">
-                      <div class="d-flex gap-2 justify-content-end">
-                        <a class="btn btn-sm btn-light text-secondary border" href="<?= e($baseUrl) ?>/admin/produtos?id=<?= e($produto['id']) ?>" title="Editar">
-                          <i class="bi bi-pencil"></i>
-                        </a>
-                        <form method="post" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
-                          <input type="hidden" name="acao" value="excluir">
-                          <input type="hidden" name="id" value="<?= e($produto['id']) ?>">
-                          <button class="btn btn-sm btn-light text-danger border" type="submit" title="Excluir">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </form>
-                      </div>
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
-                <?php if (empty($produtos)): ?>
-                  <tr>
-                    <td colspan="4" class="text-center py-5 text-muted">Nenhum produto cadastrado.</td>
-                  </tr>
-                <?php endif; ?>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h2 class="h5 fw-semibold mb-0">Produtos Cadastrados</h2>
+        <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle rounded-pill px-3 py-2">
+          <?= count($produtos) ?> <?= count($produtos) === 1 ? 'produto' : 'produtos' ?>
+        </span>
       </div>
+
+      <?php if (empty($produtos)): ?>
+        <div class="card border-0 shadow-sm p-5 text-center text-muted">
+          <i class="bi bi-box-seam display-4 d-block mb-3 text-secondary opacity-50"></i>
+          <p class="mb-0">Nenhum produto cadastrado.</p>
+        </div>
+      <?php else: ?>
+        <div class="d-flex flex-column gap-3">
+          <?php foreach ($produtos as $produto): ?>
+            <?php $isEditando = $produtoEditando && (int) $produtoEditando['id'] === (int) $produto['id']; ?>
+            <div class="card border-0 shadow-sm <?= $isEditando ? 'border-start border-4 border-primary' : '' ?>">
+              <div class="card-body p-3">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                  <div class="d-flex align-items-center gap-3">
+                    <?php if (!empty($produto['imagem'])): ?>
+                      <div class="flex-shrink-0" style="width:56px;height:56px;">
+                        <img
+                          src="<?= e($baseUrl) ?>/uploads/<?= e($produto['imagem']) ?>"
+                          alt="<?= e($produto['nome']) ?>"
+                          class="w-100 h-100 rounded object-fit-cover shadow-sm border"
+                          loading="lazy"
+                          onerror="this.onerror=null;this.src='<?= e($baseUrl) ?>/assets/images/fallback.jpg';">
+                      </div>
+                    <?php else: ?>
+                      <div class="flex-shrink-0 bg-light rounded d-flex align-items-center justify-content-center border text-muted" style="width:56px;height:56px;">
+                        <i class="bi bi-box-seam fs-4"></i>
+                      </div>
+                    <?php endif; ?>
+
+                    <div>
+                      <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <h3 class="h6 fw-bold text-dark mb-0"><?= e($produto['nome']) ?></h3>
+                        <?php if ($isEditando): ?>
+                          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill">
+                            Editando
+                          </span>
+                        <?php endif; ?>
+                      </div>
+                      <div class="d-flex align-items-center gap-2 flex-wrap mt-1">
+                        <span class="fw-semibold text-primary">
+                          <?= e(formatarPreco($produto['preco'])) ?>
+                        </span>
+                        <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle rounded-pill fw-normal">
+                          <?= e($produto['categoria_nome']) ?>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex align-items-center gap-2 ms-auto ms-sm-0">
+                    <a class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1 px-3 py-2"
+                      href="<?= e($baseUrl) ?>/admin/produtos?id=<?= e($produto['id']) ?>"
+                      title="Editar Produto">
+                      <i class="bi bi-pencil"></i>
+                      <span>Editar</span>
+                    </a>
+                    <form method="post" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
+                      <input type="hidden" name="acao" value="excluir">
+                      <input type="hidden" name="id" value="<?= e($produto['id']) ?>">
+                      <button class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 px-3 py-2"
+                        type="submit"
+                        title="Excluir Produto">
+                        <i class="bi bi-trash"></i>
+                        <span>Excluir</span>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
     </section>
   </div>
 </main>
