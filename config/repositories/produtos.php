@@ -139,7 +139,12 @@ function contarProdutosPorTermo(PDO $pdo, string $termo, ?string $categoriaSlug 
 
 function buscarProdutoPorId(PDO $pdo, int|null $id): array|null
 {
-  $sql = "SELECT p.id, p.nome, p.preco, p.descricao, p.imagem FROM produto p WHERE p.id = :id";
+  $sql = "
+    SELECT p.id, p.nome, p.preco, p.descricao, p.imagem, c.nome AS categoria_nome
+    FROM produto p
+    INNER JOIN categoria c ON c.id = p.categoria_id
+    WHERE p.id = :id
+  ";
   $stmt = $pdo->prepare($sql);
   $stmt->execute([':id' => $id]);
 

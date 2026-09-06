@@ -57,7 +57,7 @@ $mensagem = obterMensagem();
       </div>
       <div class="col-12 col-md-6">
         <div class="d-flex flex-column gap-1_5 pt-xl-4">
-          <badge class="small text-muted">Cuidados para a Pele</badge>
+          <span class="small text-muted"><?= e($produto['categoria_nome']) ?></span>
           <h2 class="mb-0"><?= $produto['nome'] ?></h2>
           <div class="fs-5">
             <?= formatarPreco($produto['preco']) ?>
