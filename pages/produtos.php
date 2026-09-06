@@ -182,13 +182,29 @@ $filtrosCompartilhados = [
               </li>
 
               <!-- Números das páginas -->
-              <?php for ($i = 1; $i <= $totalPaginas; $i++) : ?>
+              <?php
+              $paginas = [1];
+              for ($i = max(2, $paginaAtual - 1); $i <= min($totalPaginas - 1, $paginaAtual + 1); $i++) {
+                $paginas[] = $i;
+              }
+              if ($totalPaginas > 1) {
+                $paginas[] = $totalPaginas;
+              }
+              $paginas = array_values(array_unique($paginas));
+              sort($paginas);
+
+              $prev = 0;
+              foreach ($paginas as $i) :
+                if ($prev > 0 && $i - $prev > 1) : ?>
+                  <li class="page-item disabled"><span class="page-link">…</span></li>
+                <?php endif; ?>
                 <li class="page-item <?= $i === $paginaAtual ? 'active' : '' ?>">
                   <a class="page-link" href="<?= montarUrlProdutos($baseUrl, array_merge($paramsPaginacao, ['page' => $i])) ?>">
                     <?= $i ?>
                   </a>
                 </li>
-              <?php endfor; ?>
+                <?php $prev = $i; ?>
+              <?php endforeach; ?>
 
               <!-- Próximo -->
               <li class="page-item <?= $paginaAtual >= $totalPaginas ? 'disabled' : '' ?>">
