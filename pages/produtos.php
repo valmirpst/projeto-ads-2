@@ -153,7 +153,7 @@ $filtrosCompartilhados = [
               <div class="d-flex flex-column">
                 <!-- Nome do produto -->
                 <a href="<?= $baseUrl ?>/produtos/<?= $produto['id'] ?>" class="produto-nome text-body text-decoration-none">
-                  <?= $produto['nome'] ?>
+                  <?= e($produto['nome']) ?>
                 </a>
                 <!-- Preço do produto -->
                 <span>

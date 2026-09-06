@@ -31,7 +31,7 @@ $categorias = buscarCategorias($pdo);
               class="grid-item-imagem"
               loading="lazy"
               onerror="this.onerror=null;this.src='<?= $baseUrl ?>/assets/images/fallback.jpg';">
-            <h6 class="w-100"><?= $categoria['nome'] ?></h6>
+            <h6 class="w-100"><?= e($categoria['nome']) ?></h6>
           </a>
         <?php endforeach; ?>
       </div>

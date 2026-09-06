@@ -13,9 +13,9 @@ if (count($breadcrumbs) < 2) {
       <?php $isLast = $index === array_key_last($breadcrumbs); ?>
       <li class="text-black breadcrumb-item <?= $isLast ? 'active' : '' ?>" <?= $isLast ? 'aria-current="page"' : '' ?>>
         <?php if ($isLast) : ?>
-          <?= $breadcrumb['name'] ?>
+          <?= e($breadcrumb['name']) ?>
         <?php else : ?>
-          <a class="text-decoration-none text-muted" href="<?= $breadcrumb['href'] ?>"><?= $breadcrumb['name'] ?></a>
+          <a class="text-decoration-none text-muted" href="<?= e($breadcrumb['href']) ?>"><?= e($breadcrumb['name']) ?></a>
         <?php endif; ?>
       </li>
     <?php endforeach; ?>
