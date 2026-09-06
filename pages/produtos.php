@@ -33,7 +33,7 @@ $filtrosCompartilhados = [
   'ordenar' => $ordenar,
   'busca' => $busca,
 ];
-
+$urlAtual = montarUrlProdutos($baseUrl, array_filter($_GET, fn($v) => is_scalar($v) && trim((string) $v) !== ''));
 ?>
 
 <?php require_once __DIR__ . '/../includes/breadcrumb.php'; ?>
@@ -140,7 +140,7 @@ $filtrosCompartilhados = [
             </div>
           <?php endif; ?>
           <?php foreach ($produtos as $produto) : ?>
-            <div class="produto-item">
+            <div class="produto-item" id="produto-<?= e($produto['id']) ?>">
               <!-- Foto do produto -->
               <a href="<?= $baseUrl ?>/produtos/<?= $produto['id'] ?>" class="produto-imagem text-center">
                 <img
@@ -150,16 +150,25 @@ $filtrosCompartilhados = [
                   loading="lazy"
                   onerror="this.onerror=null;this.src='<?= $baseUrl ?>/assets/images/fallback.jpg';">
               </a>
-              <div class="d-flex flex-column">
+              <div class="d-flex flex-column flex-grow-1">
                 <!-- Nome do produto -->
                 <a href="<?= $baseUrl ?>/produtos/<?= $produto['id'] ?>" class="produto-nome text-body text-decoration-none">
                   <?= e($produto['nome']) ?>
                 </a>
                 <!-- Preço do produto -->
-                <span>
+                <span class="produto-preco">
                   <?= formatarPreco($produto['preco']) ?>
                 </span>
               </div>
+              <form method="post" action="<?= e($baseUrl) ?>/carrinho" class="mt-auto">
+                <input type="hidden" name="acao" value="adicionar">
+                <input type="hidden" name="produto_id" value="<?= e($produto['id']) ?>">
+                <input type="hidden" name="quantidade" value="1">
+                <input type="hidden" name="redirect" value="<?= e($urlAtual) ?>#produto-<?= e($produto['id']) ?>">
+                <button type="submit" class="btn btn-sm btn-outline-primary rounded-pill mt-2 w-100">
+                  <i class="bi bi-cart-plus me-1"></i> Adicionar
+                </button>
+              </form>
             </div>
           <?php endforeach; ?>
         </div>
