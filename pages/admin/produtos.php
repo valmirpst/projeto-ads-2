@@ -9,8 +9,14 @@ $mensagemErro = '';
 $produtoEditando = null;
 $idEditando = isset($_GET['id']) && ctype_digit((string) $_GET['id']) ? (int) $_GET['id'] : null;
 
+$caracteristicas = buscarCaracteristicas($pdo);
+$caracteristicasVinculadas = [];
+
 if ($idEditando) {
   $produtoEditando = buscarProdutoAdminPorId($pdo, $idEditando);
+  if ($produtoEditando) {
+    $caracteristicasVinculadas = buscarCaracteristicasDoProdutoIds($pdo, $idEditando);
+  }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -50,6 +56,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $imagem = salvarImagemUpload('imagem', $imagemAtual, true);
     salvarProduto($pdo, $id, $nome, $descricao, $preco, $categoriaId, $imagem);
 
+    $produtoId = $id ?: (int) $pdo->lastInsertId();
+    $caracteristicasPost = $_POST['caracteristicas'] ?? [];
+    $caracteristicasIds = is_array($caracteristicasPost)
+      ? array_values(array_filter(array_map('intval', $caracteristicasPost), fn($cid) => $cid > 0))
+      : [];
+
+    sincronizarCaracteristicasProduto($pdo, $produtoId, $caracteristicasIds);
+
     if ($id) {
       definirMensagem('success', 'Produto atualizado com sucesso.');
     } else {
@@ -60,6 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
   } catch (Throwable $e) {
     $mensagemErro = $e->getMessage();
+    if (isset($_POST['caracteristicas']) && is_array($_POST['caracteristicas'])) {
+      $caracteristicasVinculadas = array_values(array_filter(array_map('intval', $_POST['caracteristicas']), fn($cid) => $cid > 0));
+    }
   }
 }
 
@@ -121,6 +138,33 @@ $adminPagina = $adminPagina ?? 'produtos';
                 <div class="small text-muted mt-2 d-flex align-items-center gap-2">
                   <i class="bi bi-image"></i>
                   <span>Atual: <?= e($produtoEditando['imagem']) ?></span>
+                </div>
+              <?php endif; ?>
+            </div>
+            <div>
+              <label class="form-label text-secondary small fw-bold mb-2">Características</label>
+              <?php if (empty($caracteristicas)): ?>
+                <p class="text-muted small mb-0">Nenhuma característica cadastrada.</p>
+              <?php else: ?>
+                <div class="border rounded p-3 bg-light-subtle">
+                  <div class="row g-2">
+                    <?php foreach ($caracteristicas as $caracteristica): ?>
+                      <div class="col-6">
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="caracteristicas[]"
+                            value="<?= e($caracteristica['id']) ?>"
+                            id="caracteristica_<?= e($caracteristica['id']) ?>"
+                            <?= in_array((int) $caracteristica['id'], $caracteristicasVinculadas, true) ? 'checked' : '' ?>>
+                          <label class="form-check-label small user-select-none" for="caracteristica_<?= e($caracteristica['id']) ?>" style="cursor: pointer;">
+                            <?= e($caracteristica['nome']) ?>
+                          </label>
+                        </div>
+                      </div>
+                    <?php endforeach; ?>
+                  </div>
                 </div>
               <?php endif; ?>
             </div>

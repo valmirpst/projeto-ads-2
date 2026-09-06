@@ -187,6 +187,34 @@ function buscarCaracteristicasDoProduto(PDO $pdo, int $produtoId): array
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function buscarCaracteristicasDoProdutoIds(PDO $pdo, int $produtoId): array
+{
+  $stmt = $pdo->prepare('SELECT caracteristica_id FROM produto_caracteristica WHERE produto_id = :id');
+  $stmt->execute([':id' => $produtoId]);
+
+  return array_map('intval', $stmt->fetchAll(PDO::FETCH_COLUMN));
+}
+
+function sincronizarCaracteristicasProduto(PDO $pdo, int $produtoId, array $caracteristicaIds): void
+{
+  $stmt = $pdo->prepare('DELETE FROM produto_caracteristica WHERE produto_id = :id');
+  $stmt->execute([':id' => $produtoId]);
+
+  $caracteristicaIds = array_unique(array_filter(array_map('intval', $caracteristicaIds), fn($id) => $id > 0));
+
+  if (empty($caracteristicaIds)) {
+    return;
+  }
+
+  $stmtInsert = $pdo->prepare('INSERT INTO produto_caracteristica (produto_id, caracteristica_id) VALUES (:produto_id, :caracteristica_id)');
+  foreach ($caracteristicaIds as $caracteristicaId) {
+    $stmtInsert->execute([
+      ':produto_id' => $produtoId,
+      ':caracteristica_id' => $caracteristicaId,
+    ]);
+  }
+}
+
 function listarProdutosAdmin(PDO $pdo): array
 {
   $stmt = $pdo->prepare('
