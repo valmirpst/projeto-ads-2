@@ -51,6 +51,7 @@ if ($adminPagina !== null) {
     'dashboard' => 'pages/admin/dashboard.php',
     'produtos' => 'pages/admin/produtos.php',
     'categorias' => 'pages/admin/categorias.php',
+    'caracteristicas' => 'pages/admin/caracteristicas.php',
   ];
 
   if ($adminPagina === 'logout') {

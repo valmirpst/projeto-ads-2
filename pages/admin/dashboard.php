@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../includes/admin_auth.php';
 
 $totalProdutos = contarTotalProdutos($pdo);
 $totalCategorias = contarTotalCategorias($pdo);
+$totalCaracteristicas = contarTotalCaracteristicas($pdo);
 
 $adminTitulo = 'Painel Administrativo - ManuMake';
 $adminPagina = $adminPagina ?? 'dashboard';
@@ -16,11 +17,11 @@ $adminPagina = $adminPagina ?? 'dashboard';
 <main class="container py-5">
   <div class="mb-5 border-bottom pb-4">
     <h1 class="h2 fw-bold text-dark mb-1">Painel Administrativo</h1>
-    <p class="text-muted mb-0">Gerencie produtos, categorias e acesse o site principal.</p>
+    <p class="text-muted mb-0">Gerencie produtos, categorias, características e acesse o site principal.</p>
   </div>
 
   <div class="row g-4">
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-4">
       <a class="card border-0 shadow-sm text-decoration-none text-body h-100 position-relative overflow-hidden admin-card-hover" href="<?= e($baseUrl) ?>/admin/produtos">
         <div class="card-body p-4 d-flex flex-column justify-content-between">
           <div class="d-flex align-items-center justify-content-between mb-3">
@@ -44,7 +45,7 @@ $adminPagina = $adminPagina ?? 'dashboard';
       </a>
     </div>
 
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-4">
       <a class="card border-0 shadow-sm text-decoration-none text-body h-100 position-relative overflow-hidden admin-card-hover" href="<?= e($baseUrl) ?>/admin/categorias">
         <div class="card-body p-4 d-flex flex-column justify-content-between">
           <div class="d-flex align-items-center justify-content-between mb-3">
@@ -62,6 +63,30 @@ $adminPagina = $adminPagina ?? 'dashboard';
           </div>
           <div class="pt-3 border-top d-flex align-items-center justify-content-between text-success small fw-semibold">
             <span>Acessar categorias</span>
+            <i class="bi bi-arrow-right"></i>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <a class="card border-0 shadow-sm text-decoration-none text-body h-100 position-relative overflow-hidden admin-card-hover" href="<?= e($baseUrl) ?>/admin/caracteristicas">
+        <div class="card-body p-4 d-flex flex-column justify-content-between">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h2 class="h6 text-uppercase fw-semibold text-muted tracking-wide mb-0">Características</h2>
+            <div class="bg-warning bg-opacity-10 text-warning rounded-3 d-inline-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+              <i class="bi bi-bookmark-star fs-5"></i>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="d-flex align-items-baseline gap-2">
+              <span class="display-5 fw-bold text-dark"><?= $totalCaracteristicas ?></span>
+              <span class="text-muted small">cadastradas</span>
+            </div>
+            <p class="text-muted small mb-0">Gerencie características e atributos dos produtos.</p>
+          </div>
+          <div class="pt-3 border-top d-flex align-items-center justify-content-between text-warning small fw-semibold">
+            <span>Acessar características</span>
             <i class="bi bi-arrow-right"></i>
           </div>
         </div>

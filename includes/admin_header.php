@@ -6,9 +6,10 @@ $adminPagina = $adminPagina ?? '';
 $estaAutenticado = !empty($_SESSION['admin_usuario_id']);
 
 $adminNavLinks = [
-  ['name' => 'Dashboard',  'href' => $baseUrl . '/admin/dashboard',  'page' => 'dashboard',  'icon' => 'bi-speedometer2'],
-  ['name' => 'Produtos',   'href' => $baseUrl . '/admin/produtos',   'page' => 'produtos',   'icon' => 'bi-bag'],
-  ['name' => 'Categorias', 'href' => $baseUrl . '/admin/categorias', 'page' => 'categorias', 'icon' => 'bi-tags'],
+  ['name' => 'Dashboard',        'href' => $baseUrl . '/admin/dashboard',        'page' => 'dashboard',       'icon' => 'bi-speedometer2'],
+  ['name' => 'Produtos',         'href' => $baseUrl . '/admin/produtos',         'page' => 'produtos',        'icon' => 'bi-bag'],
+  ['name' => 'Categorias',       'href' => $baseUrl . '/admin/categorias',       'page' => 'categorias',      'icon' => 'bi-tags'],
+  ['name' => 'Características', 'href' => $baseUrl . '/admin/caracteristicas', 'page' => 'caracteristicas', 'icon' => 'bi-bookmark-star'],
 ];
 ?>
 
