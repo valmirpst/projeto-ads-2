@@ -67,17 +67,14 @@ $categorias = buscarCategorias($pdo);
 $produtos = listarProdutosAdmin($pdo);
 $mensagem = obterMensagem();
 $adminTitulo = 'Produtos - Admin ManuMake';
+$adminPagina = $adminPagina ?? 'produtos';
 ?>
 
 <?php require_once __DIR__ . '/../../includes/admin_header.php'; ?>
 
 <main class="container py-4">
   <div class="mb-3 border-bottom pb-4">
-    <a class="text-decoration-none text-muted" href="<?= e($baseUrl) ?>/admin/dashboard">
-      <i class="bi bi-arrow-left me-1"></i>
-      Voltar ao Painel
-    </a>
-    <h1 class="h3 mt-2 mb-0">Produtos</h1>
+    <h1 class="h3 mb-0">Produtos</h1>
   </div>
 
   <?php if ($mensagem): ?>

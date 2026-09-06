@@ -58,7 +58,7 @@ $navLinks = [
 
 <body class="d-flex flex-column min-vh-100">
 
-  <header class="header">
+  <header class="header bg-white">
 
     <nav class="navbar navbar-expand-lg position-relative px-2 px-lg-4 py-3 border-bottom border-primary-lighter">
 
@@ -77,8 +77,8 @@ $navLinks = [
       </button>
 
       <!-- Logo -->
-      <a class="navbar-brand position-absolute start-50 translate-middle-x m-0" href="<?= $baseUrl ?>/">
-        <img src="<?= $baseUrl ?>/assets/images/ManuMakeLogoSemFundo.png" alt="Logo" width="128" height="64">
+      <a class="navbar-brand position-absolute start-50 top-50 translate-middle m-0 p-0" href="<?= $baseUrl ?>/">
+        <img src="<?= $baseUrl ?>/assets/images/ManuMakeLogoSemFundo.png" alt="Logo ManuMake" width="128" height="64">
       </a>
 
       <!-- Links Desktop -->
@@ -110,8 +110,8 @@ $navLinks = [
         </button>
       </form>
 
-      <!-- Ícone do carrinho (desktop) -->
-      <a href="<?= e($baseUrl) ?>/carrinho" class="btn btn-outline-primary position-relative ms-3 me-2 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 40px; height: 40px;" aria-label="Carrinho de compras" title="Carrinho">
+      <!-- Ícone do carrinho -->
+      <a href="<?= e($baseUrl) ?>/carrinho" class="btn btn-outline-primary position-relative ms-auto ms-lg-3 me-2 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 40px; height: 40px;" aria-label="Carrinho de compras" title="Carrinho">
         <i class="bi bi-cart3" style="font-size: 1.1rem;"></i>
         <?php if ($itensCarrinho > 0): ?>
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary" style="font-size: 0.65rem;">
@@ -125,7 +125,7 @@ $navLinks = [
 
     <!-- Mobile -->
     <div class="collapse navbar-collapse d-lg-none" id="navbarSupportedContent">
-      <ul class="navbar-nav px-4 pt-1 pb-3">
+      <ul class="navbar-nav px-4 pt-2 pb-2">
 
         <?php foreach ($navLinks as $link): ?>
           <li class="nav-item">

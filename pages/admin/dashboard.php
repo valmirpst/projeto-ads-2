@@ -8,26 +8,15 @@ $totalProdutos = contarTotalProdutos($pdo);
 $totalCategorias = contarTotalCategorias($pdo);
 
 $adminTitulo = 'Painel Administrativo - ManuMake';
+$adminPagina = $adminPagina ?? 'dashboard';
 ?>
 
 <?php require_once __DIR__ . '/../../includes/admin_header.php'; ?>
 
 <main class="container py-5">
-  <div class="d-flex flex-column justify-content-between align-items-start align-items-md-center gap-3 mb-5 border-bottom pb-4">
-    <div>
-      <h1 class="h2 fw-bold text-dark mb-1">Painel Administrativo</h1>
-      <p class="text-muted mb-0">Gerencie produtos, categorias e acesse o site principal.</p>
-    </div>
-    <div class="d-flex justify-content-between gap-2 w-100 w-md-auto">
-      <a class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center gap-2 flex-grow-1 flex-md-grow-0 py-2 px-3" href="<?= e($baseUrl) ?>/">
-        <i class="bi bi-globe"></i>
-        <span>Voltar ao Site</span>
-      </a>
-      <a class="btn btn-outline-danger d-inline-flex align-items-center justify-content-center gap-2 flex-grow-1 flex-md-grow-0 py-2 px-3" href="<?= e($baseUrl) ?>/admin/logout">
-        <i class="bi bi-box-arrow-right"></i>
-        <span>Sair</span>
-      </a>
-    </div>
+  <div class="mb-5 border-bottom pb-4">
+    <h1 class="h2 fw-bold text-dark mb-1">Painel Administrativo</h1>
+    <p class="text-muted mb-0">Gerencie produtos, categorias e acesse o site principal.</p>
   </div>
 
   <div class="row g-4">
@@ -85,16 +74,20 @@ $adminTitulo = 'Painel Administrativo - ManuMake';
   .admin-card-hover {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
+
   .admin-card-hover:hover {
     transform: translateY(-4px);
     box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .08) !important;
   }
+
   .admin-card-hover .bi-arrow-right {
     transition: transform 0.2s ease;
   }
+
   .admin-card-hover:hover .bi-arrow-right {
     transform: translateX(4px);
   }
+
   .tracking-wide {
     letter-spacing: 0.05em;
   }
