@@ -106,7 +106,7 @@ $mensagem = obterMensagem();
             <h3 class="fw-light fs-4">Descrição</h3>
 
             <p class="mb-0 text-body-secondary lh-lg">
-              <?= $produto['descricao'] ?>
+              <?= nl2br(e($produto['descricao'])) ?>
             </p>
           </section>
         </div>
