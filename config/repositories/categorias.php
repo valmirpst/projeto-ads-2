@@ -17,6 +17,13 @@ function listarCategoriasAdmin(PDO $pdo): array
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function contarTotalCategorias(PDO $pdo): int
+{
+  $stmt = $pdo->query('SELECT COUNT(*) FROM categoria');
+
+  return (int) $stmt->fetchColumn();
+}
+
 function buscarCategoriaAdminPorId(PDO $pdo, int $id): ?array
 {
   $stmt = $pdo->prepare('SELECT id, nome, slug, ordem, imagem FROM categoria WHERE id = :id');

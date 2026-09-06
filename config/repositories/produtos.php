@@ -63,6 +63,13 @@ function contarProdutos(PDO $pdo, ?string $categoriaSlug = null): int
   return (int) $stmt->fetchColumn();
 }
 
+function contarTotalProdutos(PDO $pdo): int
+{
+  $stmt = $pdo->query('SELECT COUNT(*) FROM produto');
+
+  return (int) $stmt->fetchColumn();
+}
+
 function buscarProdutosRecentes(PDO $pdo, int $limite = 8): array
 {
   $sql = "SELECT p.id, p.nome, p.preco, p.imagem, c.nome AS categoria_nome
