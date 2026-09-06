@@ -1,3 +1,5 @@
+@import "produtos.css";
+
 .hero-section {
   background: radial-gradient(circle 200px at center, var(--bs-primary-lightest) 0%, transparent 70%);
 }
@@ -6,6 +8,149 @@
   max-width: 320px;
 }
 
+/* ==========================================================================
+   Seção de Novidades (Vitrine em Destaque)
+   ========================================================================== */
+.novidades-section {
+  position: relative;
+}
+
+.novidades-header {
+  width: 100%;
+  max-width: 1032px;
+  margin-inline: auto;
+}
+
+.novidade-card {
+  background-color: #ffffff;
+  border: 1px solid var(--bs-gray-200);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  max-width: 240px;
+  justify-self: center;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+  position: relative;
+}
+
+.novidade-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: var(--bs-primary-lighter);
+}
+
+.novidade-imagem-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background-color: var(--bs-gray-100);
+  display: block;
+}
+
+.novidade-imagem-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.novidade-card:hover .novidade-imagem-wrapper img {
+  transform: scale(1.05);
+}
+
+.novidade-badge {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 2;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 2rem;
+  background-color: var(--bs-primary);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.novidade-corpo {
+  padding: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 0.35rem;
+}
+
+.novidade-categoria {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--bs-primary);
+  font-weight: 600;
+}
+
+.novidade-titulo {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--bs-gray-900);
+  text-decoration: none;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.5rem;
+  line-height: 1.35;
+  transition: color 0.2s ease;
+}
+
+.novidade-card:hover .novidade-titulo {
+  color: var(--bs-primary);
+}
+
+.novidade-preco-container {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.novidade-preco {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--bs-gray-900);
+}
+
+.novidade-btn {
+  width: 100% !important;
+  max-width: 100% !important;
+  font-size: 0.8125rem;
+  padding: 0.45rem 0.5rem !important;
+  border-radius: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.novidade-btn:hover {
+  background-color: var(--bs-primary);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Seção de Categorias
+   ========================================================================== */
 .categoria-item {
   color: inherit;
   width: 100%;
@@ -16,15 +161,48 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 
   h6 {
-    transition: font-size 0.3s ease;
+    transition:
+      font-size 0.3s ease,
+      color 0.3s ease;
     position: absolute;
     bottom: 0;
     left: 0;
     background: linear-gradient(to top, #fff 0%, rgba(250, 250, 250, 0.8) 10%, transparent 90%);
     padding: 1rem 0 0.25rem 0;
     margin-bottom: 0;
+  }
+}
+
+.categoria-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+@media screen and (max-width: 767.98px) {
+  .novidades-section {
+    padding-top: 2.25rem;
+  }
+}
+
+@media screen and (max-width: 575.98px) {
+  .novidade-corpo {
+    padding: 0.65rem;
+  }
+
+  .novidade-preco {
+    font-size: 1rem;
+  }
+
+  .novidade-btn {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.35rem !important;
   }
 }
 
@@ -37,7 +215,7 @@
     font-size: 1.5rem;
   }
 
-  .btn {
+  .hero-content .btn {
     max-width: max-content;
     padding: 0.75rem 1.25rem;
   }

@@ -63,6 +63,20 @@ function contarProdutos(PDO $pdo, ?string $categoriaSlug = null): int
   return (int) $stmt->fetchColumn();
 }
 
+function buscarProdutosRecentes(PDO $pdo, int $limite = 8): array
+{
+  $sql = "SELECT p.id, p.nome, p.preco, p.imagem, c.nome AS categoria_nome
+          FROM produto p
+          INNER JOIN categoria c ON c.id = p.categoria_id
+          ORDER BY p.id DESC
+          LIMIT :limite";
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+  $stmt->execute();
+
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function buscarProdutosPorTermo(PDO $pdo, string $termo, ?string $categoriaSlug = null, ?string $ordenar = null, int $limite = 0, int $offset = 0): array
 {
   $termo = trim($termo);
